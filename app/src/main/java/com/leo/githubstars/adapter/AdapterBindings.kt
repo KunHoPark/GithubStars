@@ -5,7 +5,7 @@ import android.databinding.ObservableArrayList
 import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
 import com.leo.githubstars.adapter.GithubAdapter
-import com.leo.githubstars.application.GithubStarsApp
+import com.leo.githubstars.application.MyGithubStarsApp
 import com.leo.githubstars.data.local.UserData
 import com.leo.githubstars.util.PicassoUtil
 
@@ -21,7 +21,7 @@ object AdapterBindings {
     @BindingAdapter("loadImage")
     @JvmStatic
     fun setLoadImage(imageView: ImageView, url: String) {
-        PicassoUtil.loadImage(GithubStarsApp.applicationContext(), url, imageView)
+        PicassoUtil.loadImage(MyGithubStarsApp.applicationContext(), url, imageView)
     }
 
 }

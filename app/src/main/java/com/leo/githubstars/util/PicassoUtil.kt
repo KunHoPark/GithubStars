@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.widget.ImageView
 import com.leo.githubstars.R
-import com.leo.githubstars.application.GithubStarsApp
+import com.leo.githubstars.application.MyGithubStarsApp
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.util.*
@@ -51,7 +51,7 @@ class PicassoUtil {
 
         private fun getRandomPlaceHolderDrawable() : Drawable {
             val bgColors : Array<Int> = arrayOf(R.color.subgray, R.color.random_1, R.color.random_2)
-            return ColorDrawable(ContextCompat.getColor(GithubStarsApp.applicationContext(), bgColors[Random().nextInt(bgColors.size)]))
+            return ColorDrawable(ContextCompat.getColor(MyGithubStarsApp.applicationContext(), bgColors[Random().nextInt(bgColors.size)]))
         }
     }
 

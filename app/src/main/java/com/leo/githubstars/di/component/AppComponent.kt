@@ -2,7 +2,7 @@ package com.leo.githubstars.di.component;
 
 
 import android.app.Application
-import com.leo.githubstars.application.GithubStarsApp
+import com.leo.githubstars.application.MyGithubStarsApp
 import com.leo.githubstars.di.module.*
 import dagger.BindsInstance
 import dagger.Component
@@ -25,7 +25,7 @@ import javax.inject.Singleton
  * @author KunHOPark
  * @since 2018. 7. 29. AM 10:03
  **/
-interface AppComponent : AndroidInjector<GithubStarsApp> {       //Application과의 연결을 도울 AndroidInjector를 상속받고, 제네릭으로 MyGithubApp 클래스를 정의 한다.
+interface AppComponent : AndroidInjector<MyGithubStarsApp> {       //Application과의 연결을 도울 AndroidInjector를 상속받고, 제네릭으로 MyGithubApp 클래스를 정의 한다.
 
     @Component.Builder
     interface Builder {
@@ -37,5 +37,5 @@ interface AppComponent : AndroidInjector<GithubStarsApp> {       //Application�
         fun build(): AppComponent
     }
 
-    override fun inject(instance: GithubStarsApp)
+    override fun inject(instance: MyGithubStarsApp)
 }
