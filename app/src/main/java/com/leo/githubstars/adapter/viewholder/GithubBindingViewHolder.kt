@@ -2,9 +2,11 @@ package com.leo.githubstars.adapter.viewholder
 
 import android.support.v7.widget.RecyclerView
 import com.leo.githubstars.BR
+import com.leo.githubstars.application.GithubStarsApp
 import com.leo.githubstars.callback.OnItemClickListener
 import com.leo.githubstars.data.local.UserData
 import com.leo.githubstars.databinding.ItemGithubViewHolderBinding
+import com.leo.githubstars.util.PicassoUtil
 
 class GithubBindingViewHolder(private var binding: ItemGithubViewHolderBinding, private val listener: OnItemClickListener?) : RecyclerView.ViewHolder(binding.root) {
     internal val tag = this.javaClass.simpleName
@@ -14,7 +16,7 @@ class GithubBindingViewHolder(private var binding: ItemGithubViewHolderBinding, 
         with(binding){
 
             this.setVariable(BR.userData, item)
-//            PicassoUtil.loadImage(MyGithubApp.applicationContext(), item.avatarUrl, ivThumbnail)
+            PicassoUtil.loadImage(GithubStarsApp.applicationContext(), item.avatarUrl, ivThumbnail)
 
             listener?.let {
                 this.root.setOnClickListener {

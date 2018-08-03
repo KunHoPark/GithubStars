@@ -12,13 +12,13 @@ import timber.log.Timber
 /**
  * DaggerApplication를 상속받고, AppComponent에서 정의한 Builder를 활용하여 Component와 연결 한다.
  */
-class MyGithubApp : DaggerApplication() {
+class GithubStarsApp : DaggerApplication() {
     companion object {
         val appComponent: AppComponent by lazy { DaggerAppComponent.builder()
-                .application(MyGithubApp.instance!!)
+                .application(GithubStarsApp.instance!!)
                 .build() }
 
-        private var instance: MyGithubApp? = null
+        private var instance: GithubStarsApp? = null
         @JvmStatic fun applicationContext() : Context = instance!!.applicationContext
         @JvmStatic fun application() : Application = instance!!
 

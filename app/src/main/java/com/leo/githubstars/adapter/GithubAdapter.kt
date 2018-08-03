@@ -45,6 +45,10 @@ class GithubAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun removeItmes(){
+        listData
+    }
+
     override fun getItemCount(): Int {
         return listData!!.size
     }

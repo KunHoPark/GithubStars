@@ -1,6 +1,6 @@
 package com.leo.githubstars.data.repository
 
-import com.leo.githubstars.application.MyGithubApp
+import com.leo.githubstars.application.GithubStarsApp
 import com.leo.githubstars.data.local.SearchData
 import com.leo.githubstars.data.remote.api.RemoteApi
 import com.leo.githubstars.util.NetworkUtils
@@ -16,7 +16,7 @@ class RemoteRepository(private val remoteApi: RemoteApi) {
     /**
      * 서버를 통해 검색어에 대한 결과 값을 가져 온다.
      */
-    fun loadSearchData(searchValue: String, page: Int, perPage: Int=20): Flowable<SearchData> {
+    fun loadSearchDataFromGithub(searchValue: String, page: Int, perPage: Int=20): Flowable<SearchData> {
 
         return if (isNetworkAvailAble()) {
             val quereis = HashMap<String, String>()
@@ -37,7 +37,7 @@ class RemoteRepository(private val remoteApi: RemoteApi) {
      * 네트워크 연결 상태 확인. 만약 미 연결되어 있으면 Exception 처리 한다.
      */
     private fun isNetworkAvailAble(): Boolean {
-        if (NetworkUtils.isNetworkAvailable(MyGithubApp.applicationContext())) {
+        if (NetworkUtils.isNetworkAvailable(GithubStarsApp.applicationContext())) {
             return true
         }
 

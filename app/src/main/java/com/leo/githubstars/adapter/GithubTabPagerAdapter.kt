@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import com.leo.githubstars.R
-import com.leo.githubstars.application.MyGithubApp
+import com.leo.githubstars.application.GithubStarsApp
 import com.leo.githubstars.ui.main.MainFragment
 import com.leo.githubstars.ui.main.tab.BookmarkTabFragment
 import com.leo.githubstars.ui.main.tab.GithubTabFragment
@@ -34,10 +34,10 @@ class GithubTabPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm)
     override fun getPageTitle(position: Int): CharSequence? {
         return when(position) {
             MainFragment.Variable.TAB_FRAGMENT_BTC -> {
-                MyGithubApp.applicationContext().resources.getString(R.string.common_tab_title_bookmark)
+                GithubStarsApp.applicationContext().resources.getString(R.string.common_tab_title_bookmark)
             }
             else -> {
-                MyGithubApp.applicationContext().resources.getString(R.string.common_tab_title_github)
+                GithubStarsApp.applicationContext().resources.getString(R.string.common_tab_title_github)
             }
         }
     }

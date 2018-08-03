@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ccom.leo.githubstars.ui.base.BaseFragment
+import ccom.leo.githubstars.ui.base.BaseTabFragment
 import com.leo.githubstars.adapter.GithubAdapter
 import com.leo.githubstars.databinding.BookmarkTabFragmentBinding
 import com.leo.githubstars.di.scope.ActivityScoped
@@ -22,7 +22,8 @@ import javax.inject.Inject
  * @since 2018. 8. 2. PM 20:11
  **/
 @ActivityScoped
-class BookmarkTabFragment @Inject constructor() : BaseFragment() {
+class BookmarkTabFragment @Inject constructor() : BaseTabFragment() {
+    internal val tag = this.javaClass.simpleName
 
     private var viewModel: MainViewModel?= null
     private lateinit var viewDataBinding: BookmarkTabFragmentBinding
