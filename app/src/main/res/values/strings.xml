@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">GitHub Stars</string>
+    <string name="splash_title">DRAMA&amp;\nCOMPANY\n\nGitHub Stars</string>
+    <string name="common_app_exit_msg">뒤로가기 버튼을 한번 더 누르시면 종료됩니다</string>
+    <string name="common_tab_title_github">Github</string>
+    <string name="common_tab_title_bookmark">Bookmark</string>
+
+    <string name="cryptocurrency_error_message">There is an error getting the data: \n</string>
+
+    //action key
+    <string name="intent_action_key_id">intent.action.key.contents.id</string>
+    <string name="intent_action_key_tab_position">intent.actionkey.tab.position</string>
+
+</resources>
