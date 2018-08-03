@@ -1,6 +1,10 @@
 package com.leo.githubstars.di.module;
 
+import com.leo.githubstars.R
 import com.leo.githubstars.application.Constants
+import com.leo.githubstars.application.MyGithubStarsApp
+import com.leo.githubstars.data.remote.api.AuthInterceptor
+import com.leo.githubstars.util.LeoSharedPreferences
 import com.leo.githubstars.util.RetrofitLogger
 import dagger.Module
 import dagger.Provides
@@ -24,11 +28,20 @@ import javax.inject.Singleton
 class NetworkDataModule {
 
     @Provides
-    @Named("github")
+    @Named("unauthorized")
     @Singleton
-    fun provideGithubRestAdapter(okHttpClient: OkHttpClient): Retrofit {
+    fun provideUnauthorizedOkHttpClient(okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder().client(okHttpClient).baseUrl("https://github.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+    }
+
+    @Provides
+    @Named("authorized")
+    @Singleton
+    fun provideAuthRestAdapter(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder().client(okHttpClient).baseUrl(Constants.GITHUB_BASE_URL)
-//                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
@@ -37,12 +50,13 @@ class NetworkDataModule {
 
     @Provides
     @Singleton
-    fun providesOkHttpClient(): OkHttpClient {
+    fun providesOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient {
 
         val builder = OkHttpClient.Builder().apply {
             readTimeout(Constants.READ_TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS)
             writeTimeout(Constants.WRITE_TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS)
             connectTimeout(Constants.CONNECT_TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS)
+            addInterceptor(authInterceptor)
             addInterceptor(HttpLoggingInterceptor(RetrofitLogger(Constants.HTTP_LOGGING_PRETTY_PRINTING_ENABLE)).apply {
                 level = HttpLoggingInterceptor.Level.BODY
                 HttpLoggingInterceptor.Level.HEADERS
@@ -51,6 +65,15 @@ class NetworkDataModule {
         }
 
         return builder.build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthInterceptor(): AuthInterceptor {
+        val provider = LeoSharedPreferences(MyGithubStarsApp.applicationContext()).getString(MyGithubStarsApp.resources().getString(R.string.pref_action_key_auth_token) )
+//        val token =  provider ?: throw IllegalStateException("authToken cannot be null")
+        val token =  provider ?: ""
+        return AuthInterceptor(token)
     }
 
 }

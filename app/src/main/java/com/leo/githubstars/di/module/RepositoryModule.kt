@@ -21,8 +21,8 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideImageDetailRepository(@Named("github") restAdapter: Retrofit, walletRoomDatabase: WalletRoomDatabase): RemoteRepository =
-            RemoteRepository(restAdapter.create(RemoteApi::class.java))
+    fun provideImageDetailRepository(@Named("unauthorized") unauthRestAdapter: Retrofit, @Named("authorized") authRestAdapter: Retrofit, walletRoomDatabase: WalletRoomDatabase): RemoteRepository =
+            RemoteRepository(unauthRestAdapter.create(RemoteApi::class.java), authRestAdapter.create(RemoteApi::class.java))
 
 
 }

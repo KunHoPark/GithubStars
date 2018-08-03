@@ -10,5 +10,6 @@
     //action key
     <string name="intent_action_key_id">intent.action.key.contents.id</string>
     <string name="intent_action_key_tab_position">intent.actionkey.tab.position</string>
+    <string name="pref_action_key_auth_token">pref.action.key.auth.token</string>
 
 </resources>

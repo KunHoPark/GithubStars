@@ -5,6 +5,8 @@ class Constants {
 
     companion object {
 
+        const val GITHUB_CLIENT_ID = "9a821307cd8bef833de1"
+        const val GITHUB_CLIENT_SECRET = "0b6e1aa0b45aad7da0bcca17bdf7471b74c32af9"
         const val OFFSET = 20
         const val LIMIT = 20
         const val START_ZERO_VALUE = "0"

@@ -2,14 +2,19 @@ package com.leo.githubstars.ui.splash
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.net.Uri
 import android.os.Bundle
+import android.support.customtabs.CustomTabsIntent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ccom.leo.githubstars.ui.base.BaseFragment
+import com.leo.githubstars.application.Constants
 import com.leo.githubstars.databinding.SplashFragmentBinding
 import com.leo.githubstars.di.scope.ActivityScoped
 import com.leo.githubstars.util.ActivityUtil
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.splash_fragment.*
 import javax.inject.Inject
 
@@ -20,6 +25,11 @@ class SplashFragment @Inject constructor() : BaseFragment() {
     private lateinit var viewModel: SplashViewModel
     private lateinit var viewDataBinding: SplashFragmentBinding
     @Inject lateinit var viewModelFactory: SplashViewModelFactory
+
+    companion object {
+        var code: String?= null
+        val onNewIntent: PublishSubject<String> = PublishSubject.create()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -39,35 +49,53 @@ class SplashFragment @Inject constructor() : BaseFragment() {
 
         subscribeLiveData()
         loadData()
-
-        ActivityUtil.startMainActivity(activity!!)
-        activity!!.finish()
     }
 
     private fun loadData() {
-        viewModel.loadCollections()
+
     }
 
     override fun initClickListener() {
+        btnSignIn.setOnClickListener {
+            val authUri = Uri.Builder().scheme("https").authority("github.com")
+                    .appendPath("login")
+                    .appendPath("oauth")
+                    .appendPath("authorize")
+                    .appendQueryParameter("client_id", Constants.GITHUB_CLIENT_ID)
+                    .build()
 
+            val intent = CustomTabsIntent.Builder().build()
+            intent.launchUrl(activity, authUri)
+        }
     }
 
     private fun subscribeLiveData() {
         with(viewModel){
             isLoadingSuccess.observe(this@SplashFragment, Observer<Boolean> {
-                dataLoading.visibility = View.GONE
+
                 if(it == true){
-                    ActivityUtil.startMainActivity(activity!!)
-                    activity!!.finish()
+                    dataLoading.visibility = View.VISIBLE
                 }else{
-                    showToast("서버 연결에 실패 하였습니다. 네트워크 상태를 확인해 주세요.")
-                    ActivityUtil.startMainActivity(activity!!)
-                    activity!!.finish()
+                    dataLoading.visibility = View.GONE
                 }
             })
         }
-    }
 
+        viewModel.accessToken
+                .filter { !it.isEmpty }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    ActivityUtil.startMainActivity(activity!!)
+                    activity!!.finish()
+                }
+        viewModel.loadAccessToken()
+
+        SplashFragment.onNewIntent
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    viewModel.requestAccessToken(Constants.GITHUB_CLIENT_ID, Constants.GITHUB_CLIENT_SECRET, it)
+                }
+    }
 
 
 }

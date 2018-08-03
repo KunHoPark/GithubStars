@@ -109,6 +109,9 @@ class GithubTabFragment @Inject constructor() : BaseTabFragment() {
                     newText?.let {
                         searchWord = it
                         loadSearchDataFromGithub(it, false)
+                        scrollListener?.let {
+                            it.previousTotal = 0
+                        }
                     }
                 }
                 return true
