@@ -17,6 +17,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.splash.SplashActivity"
             android:launchMode="singleTask">
+            <!-- 로그인 버튼 > github site에서 로그인 > onNewIntent를 통해 code을 가져 오기 위해 singleTask로 처리 한다. -->
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

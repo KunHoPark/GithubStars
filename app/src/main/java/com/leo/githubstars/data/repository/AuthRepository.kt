@@ -7,14 +7,13 @@ import io.reactivex.schedulers.Schedulers
 
 
 class AuthRepository(private val unauthRestAdapter: RemoteApi) {
-    private val tag = this.javaClass.simpleName
 
-
+    /**
+     * Github auth token 가져오기.
+     */
     fun getAccessToken(clientId: String, clientSecret: String, code: String): Observable<GithubAccessToken> {
         return unauthRestAdapter.getAccessToken(clientId, clientSecret, code)
                 .subscribeOn(Schedulers.io())
     }
-
-
 
 }

@@ -24,13 +24,15 @@ class GithubBindingViewHolder(private var binding: ItemGithubViewHolderBinding, 
             this.setVariable(BR.userData, item)
             PicassoUtil.loadImage(MyGithubStarsApp.applicationContext(), item.avatarUrl, ivThumbnail)
 
-            if (searchWord!=null){
-                drawHighLight(tvTitle, tvDesc, searchWord, item)
-            }else{
+            // for text highlight.
+            if (searchWord.isNullOrEmpty()){
                 tvTitle.text = item.login
                 tvDesc.text = item.url
+            }else{
+                drawHighLight(tvTitle, tvDesc, searchWord, item)
             }
 
+            // Bookmark 아이콘.
             when(item.isBookmark){
                 true -> {
                     ivBookmark.setImageResource(R.drawable.btn_done_nor)
@@ -48,6 +50,9 @@ class GithubBindingViewHolder(private var binding: ItemGithubViewHolderBinding, 
         }
     }
 
+    /**
+     * 검색어에 대한 글자 HighLight.
+     */
     private fun drawHighLight(tvLogin: TextView, tvName: TextView, searchWord: String?, item: UserData){
         var keyword = searchWord
         var login: String

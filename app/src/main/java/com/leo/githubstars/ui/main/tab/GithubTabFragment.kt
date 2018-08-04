@@ -85,8 +85,9 @@ class GithubTabFragment @Inject constructor() : BaseTabFragment() {
     override fun initClickListener() {
         super.initClickListener()
 
+        // 검색 필드 리스너.
         svInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query: String?): Boolean {
+            override fun onQueryTextSubmit(query: String?): Boolean {               // 소프트 키보드의 검색 버튼.
                 LeoLog.i(tag, "setOnQueryTextListener query= $query")
                     query?.let {
                         setSearchWord(it)
@@ -98,7 +99,7 @@ class GithubTabFragment @Inject constructor() : BaseTabFragment() {
                 return true
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
+            override fun onQueryTextChange(newText: String?): Boolean {             // 입력 필드의 값이 변경 되면 호출 됨.
                 LeoLog.i(tag, "onQueryTextChange newText= $newText")
                 viewModel?.run {
                     newText?.let {
@@ -115,6 +116,9 @@ class GithubTabFragment @Inject constructor() : BaseTabFragment() {
         })
     }
 
+    /**
+     * ViewModel로 부터 전달 되는 이벤트 들을 관리 한다. ex) observe, liveData 등
+     */
     override fun subscribe() {
 
         viewModel?.run {

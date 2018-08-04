@@ -24,6 +24,9 @@ class SplashViewModel
     var isLoadingSuccess: MutableLiveData<Boolean> = MutableLiveData()
     val accessToken: PublishSubject<SupportOptional<String>> = PublishSubject.create()
 
+    /**
+     * token 정보를 local에 가지고 있는지 확인. 없으면 무시, 있으면 main 화면으로 넘어 가기 위해 subject를 호출 한다.
+     */
     fun loadAccessToken(): Disposable
             = Single.fromCallable { optionalOf( LeoSharedPreferences(applicationContext()).getString(resources().getString(R.string.pref_action_key_auth_token) )) }
             .subscribeOn(Schedulers.io())
@@ -31,6 +34,9 @@ class SplashViewModel
                 accessToken.onNext(it)
             })
 
+    /**
+     * Token 정보를 가져 오는 api. Github 로긘 후 code 값을 받아 오면 처리 된다. code 값은 onNewIntent를 통해 받아 온다.
+     */
     fun requestAccessToken(clientId: String, clientSecret: String, code: String): Disposable
             = authRepository.getAccessToken(clientId, clientSecret, code)
             .map { it.accessToken }

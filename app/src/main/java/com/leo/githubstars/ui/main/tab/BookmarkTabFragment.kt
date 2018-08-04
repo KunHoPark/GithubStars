@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,8 @@ import com.leo.githubstars.databinding.BookmarkTabFragmentBinding
 import com.leo.githubstars.di.scope.ActivityScoped
 import com.leo.githubstars.ui.main.MainViewModel
 import com.leo.githubstars.ui.main.MainViewModelFactory
+import com.leo.githubstars.util.LeoLog
+import kotlinx.android.synthetic.main.view_searchview_layout.*
 import javax.inject.Inject
 
 /**
@@ -61,16 +64,51 @@ class BookmarkTabFragment @Inject constructor() : BaseTabFragment() {
         loadData()
     }
 
-    fun loadData() {
-        viewModel?.let {
+    private fun loadData() {
+        viewModel?.run {
+            getSearchWord()?.let {
+                this.loadSearchDataFromDb(it)
+                        .observe(this@BookmarkTabFragment, Observer<List<UserData>> {
+                            it?.let {
+                                githubAdapter.addItems(it)
+                            }
+                        })
 
+            }
         }
     }
 
     override fun initClickListener() {
         super.initClickListener()
+
+        // 검색 필드 리스너.
+        svInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {                   // 소프트 키보드의 검색 버튼.
+                LeoLog.i(tag, "setOnQueryTextListener query= $query")
+                query?.let {
+                    setSearchWord(it)
+                    loadData()
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {                 // 입력 필드의 값이 변경 되면 호출 됨.
+                LeoLog.i(tag, "onQueryTextChange newText= $newText")
+                viewModel?.run {
+                    newText?.let {
+                        setSearchWord(it)
+                        loadData()
+                    }
+                }
+                return true
+            }
+
+        })
     }
 
+    /**
+     * ViewModel로 부터 전달 되는 이벤트 들을 관리 한다. ex) observe, liveData 등
+     */
     override fun subscribe() {
 
         viewModel?.run {
@@ -79,7 +117,9 @@ class BookmarkTabFragment @Inject constructor() : BaseTabFragment() {
             // Bookmark db에 등록된 유저 정보가 변경 되었을때.
             getUserDataFromDb().observe(this@BookmarkTabFragment, Observer<List<UserData>> {
                 it?.let {
-                    githubAdapter.addItems(it)
+                    getSearchWord()?.let {
+                        loadData()
+                    }?:githubAdapter.addItems(it)
                 }
 
             })

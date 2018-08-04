@@ -1,6 +1,7 @@
 package com.leo.githubstars.data.repository
 
 import android.arch.lifecycle.LiveData
+import android.arch.persistence.db.SimpleSQLiteQuery
 import com.leo.githubstars.application.MyGithubStarsApp
 import com.leo.githubstars.data.local.SearchData
 import com.leo.githubstars.data.local.UserDao
@@ -14,8 +15,6 @@ import java.util.*
 
 
 class RemoteRepository(private val remoteApi: RemoteApi, private val userDao: UserDao) {
-    private val tag = this.javaClass.simpleName
-
 
     /**
      * 서버를 통해 검색어에 대한 결과 값을 가져 온다.
@@ -35,6 +34,14 @@ class RemoteRepository(private val remoteApi: RemoteApi, private val userDao: Us
         }else{
             Flowable.error {throw IOException("Network connection fail")}
         }
+    }
+
+    /**
+     * Bookmark db에서 문자열 검색.
+     */
+    fun loadSearchDataFromDb(searchValue: String): LiveData<List<UserData>> {
+        val searchQuery = SimpleSQLiteQuery("SELECT * FROM bookmark_user_table WHERE login LIKE '%$searchValue%' ORDER BY LOWER(login) ASC")
+        return userDao.searchLiveUserDataRaw(searchQuery)
     }
 
     /**

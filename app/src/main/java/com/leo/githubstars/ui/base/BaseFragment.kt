@@ -12,8 +12,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 
 open abstract class BaseFragment: DaggerFragment() {
-    internal val tag = this.javaClass.simpleName
-
     lateinit var disposables: AutoClearedDisposable
     lateinit var viewDisposables : AutoClearedDisposable
 
@@ -46,7 +44,7 @@ open abstract class BaseFragment: DaggerFragment() {
         message
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    LeoLog.e(tag, it)
+                    LeoLog.e("BaseFragment", it)
                 }
                 .apply {
                     disposables.add(this)

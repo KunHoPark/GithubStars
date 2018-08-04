@@ -55,6 +55,7 @@ class SplashFragment @Inject constructor() : BaseFragment() {
     }
 
     override fun initClickListener() {
+        // Token 정보를 가져 오기.
         btnSignIn.setOnClickListener {
             val authUri = Uri.Builder().scheme("https").authority("github.com")
                     .appendPath("login")
@@ -68,6 +69,9 @@ class SplashFragment @Inject constructor() : BaseFragment() {
         }
     }
 
+    /**
+     * ViewModel로 부터 전달 되는 이벤트 들을 관리 한다. ex) observe, liveData 등
+     */
     override fun subscribe() {
         with(viewModel) {
             super.subScribeMessage(this.message)
@@ -81,6 +85,7 @@ class SplashFragment @Inject constructor() : BaseFragment() {
                 }
             })
 
+            // loadAccessToken()를 통해 token 정보가 있다고 전달 받음. Main화면 으로 전환.
             this.accessToken
                     .filter { !it.isEmpty }
                     .observeOn(AndroidSchedulers.mainThread())
@@ -92,11 +97,12 @@ class SplashFragment @Inject constructor() : BaseFragment() {
                         viewDisposables.add(this)
                     }
 
+            // Token 정보를 보유 하고 있는지 확인.
             this.loadAccessToken()
 
         }
 
-
+        // onNewIntent를 처리 하기 위함. 로그인 버튼을 누른 후 발생됨. Github site로 부터 code 값을 가져 온다. ntent-filter의 scheme는 manifest에 설정 되어 있다.
         SplashFragment.onNewIntent
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {

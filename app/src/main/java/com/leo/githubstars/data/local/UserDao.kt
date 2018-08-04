@@ -1,19 +1,21 @@
 package com.leo.githubstars.data.local
 
 import android.arch.lifecycle.LiveData
+import android.arch.persistence.db.SupportSQLiteQuery
 import android.arch.persistence.room.*
 import io.reactivex.Flowable
+
 
 @Dao
 interface UserDao {
 
-    @Query("SELECT * FROM bookmark_user_table ORDER BY login ASC")
+    @Query("SELECT * FROM bookmark_user_table ORDER BY LOWER(login) ASC")
     fun getLiveUserData(): LiveData<List<UserData>>
 
-    @Query("SELECT * FROM bookmark_user_table ORDER BY login ASC")
+    @Query("SELECT * FROM bookmark_user_table ORDER BY LOWER(login) ASC")
     fun getUserData(): List<UserData>
 
-    @Query("SELECT * FROM bookmark_user_table ORDER BY login ASC")
+    @Query("SELECT * FROM bookmark_user_table ORDER BY LOWER(login) ASC")
     fun getUserDataRx(): Flowable<List<UserData>>
 
     @Query("SELECT * FROM bookmark_user_table WHERE id = (:id)")
@@ -25,8 +27,11 @@ interface UserDao {
     @Query("SELECT * FROM bookmark_user_table WHERE id = (:id)")
     fun getLiveUserDataByCoinId(id: Int): LiveData<UserData>
 
-    @Query("SELECT * FROM bookmark_user_table ORDER BY login limit :limit offset :offset")
+    @Query("SELECT * FROM bookmark_user_table ORDER BY LOWER(login) limit :limit offset :offset")
     fun queryUserDataRx(limit:Int, offset:Int): Flowable<List<UserData>>
+
+    @RawQuery(observedEntities = [UserData::class])
+    fun searchLiveUserDataRaw(query: SupportSQLiteQuery): LiveData<List<UserData>>
 
     @Insert
     fun insert(userData: UserData)
