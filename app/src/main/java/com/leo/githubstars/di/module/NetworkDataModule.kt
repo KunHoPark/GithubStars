@@ -30,7 +30,7 @@ class NetworkDataModule {
     @Provides
     @Named("unauthorized")
     @Singleton
-    fun provideUnauthorizedOkHttpClient(okHttpClient: OkHttpClient): Retrofit {
+    fun provideUnauthorizedOkHttpClient(@Named("unAuthOkHttpClient") okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder().client(okHttpClient).baseUrl("https://github.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -40,7 +40,7 @@ class NetworkDataModule {
     @Provides
     @Named("authorized")
     @Singleton
-    fun provideAuthRestAdapter(okHttpClient: OkHttpClient): Retrofit {
+    fun provideAuthRestAdapter(@Named("authOkHttpClient") okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder().client(okHttpClient).baseUrl(Constants.GITHUB_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -49,6 +49,26 @@ class NetworkDataModule {
     }
 
     @Provides
+    @Named("unAuthOkHttpClient")
+    @Singleton
+    fun providesUnAuthOkHttpClient(): OkHttpClient {
+
+        val builder = OkHttpClient.Builder().apply {
+            readTimeout(Constants.READ_TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS)
+            writeTimeout(Constants.WRITE_TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS)
+            connectTimeout(Constants.CONNECT_TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS)
+            addInterceptor(HttpLoggingInterceptor(RetrofitLogger(Constants.HTTP_LOGGING_PRETTY_PRINTING_ENABLE)).apply {
+                level = HttpLoggingInterceptor.Level.BODY
+                HttpLoggingInterceptor.Level.HEADERS
+
+            })
+        }
+
+        return builder.build()
+    }
+
+    @Provides
+    @Named("authOkHttpClient")
     @Singleton
     fun providesOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient {
 

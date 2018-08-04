@@ -13,6 +13,7 @@ import com.leo.githubstars.application.Constants
 import com.leo.githubstars.databinding.SplashFragmentBinding
 import com.leo.githubstars.di.scope.ActivityScoped
 import com.leo.githubstars.util.ActivityUtil
+import com.leo.githubstars.util.LeoLog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.splash_fragment.*
@@ -88,13 +89,22 @@ class SplashFragment @Inject constructor() : BaseFragment() {
                     ActivityUtil.startMainActivity(activity!!)
                     activity!!.finish()
                 }
+
         viewModel.loadAccessToken()
+
+
+        viewModel.message
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    LeoLog.e(tag, it)
+                }
 
         SplashFragment.onNewIntent
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     viewModel.requestAccessToken(Constants.GITHUB_CLIENT_ID, Constants.GITHUB_CLIENT_SECRET, it)
                 }
+
     }
 
 

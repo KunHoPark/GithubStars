@@ -3,6 +3,7 @@ package com.leo.githubstars.di.module;
 
 import com.leo.githubstars.data.local.WalletRoomDatabase
 import com.leo.githubstars.data.remote.api.RemoteApi
+import com.leo.githubstars.data.repository.AuthRepository
 import com.leo.githubstars.data.repository.RemoteRepository
 import dagger.Module
 import dagger.Provides
@@ -21,8 +22,13 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideImageDetailRepository(@Named("unauthorized") unauthRestAdapter: Retrofit, @Named("authorized") authRestAdapter: Retrofit, walletRoomDatabase: WalletRoomDatabase): RemoteRepository =
-            RemoteRepository(unauthRestAdapter.create(RemoteApi::class.java), authRestAdapter.create(RemoteApi::class.java))
+    fun provideRemoteRepository( @Named("authorized") authRestAdapter: Retrofit, walletRoomDatabase: WalletRoomDatabase): RemoteRepository =
+            RemoteRepository(authRestAdapter.create(RemoteApi::class.java))
+
+    @Provides
+    @Singleton
+    fun provideAuthRepository(@Named("unauthorized") unauthRestAdapter: Retrofit): AuthRepository =
+            AuthRepository(unauthRestAdapter.create(RemoteApi::class.java) )
 
 
 }

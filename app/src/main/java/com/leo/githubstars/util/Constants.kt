@@ -11,7 +11,7 @@ class Constants {
         const val LIMIT = 20
         const val START_ZERO_VALUE = "0"
         const val DATABASE_NAME = "gettygallery_db"
-        const val PERPAGE = 13
+        const val PERPAGE = 20
 
         const val HTTP_LOGGING_PRETTY_PRINTING_ENABLE = true
 

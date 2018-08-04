@@ -79,35 +79,6 @@ class MainViewModel
                     compositeDisposable.add(this)
                 }
 
-//        beforeSearchValue?.let {
-//            if (it != searchValue){
-//                totalCount = 0
-//                currentPage = 0
-//            }
-//            beforeSearchValue = searchValue
-//        }
-//
-//        if (totalCount > currentPage*Constants.PERPAGE || currentPage==0){
-//
-//            remoteRepository.loadSearchDataFromGithub(searchValue, ++currentPage, Constants.PERPAGE)
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(
-//                            {
-//                                it?.let {
-//                                    totalCount = it.totalCount.toInt()
-//                                    userData.addAll(it.items)
-//                                }
-//                            },
-//                            {
-//                                LeoLog.e(it.localizedMessage)
-//                            },
-//                            {}
-//                    )
-//                    .apply {
-//                        compositeDisposable.add(this)
-//                    }
-//        }
-
     }
 
     override fun onCleared() {

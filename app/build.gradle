@@ -77,7 +77,5 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.4.0'
     // picasso
     implementation files('libs/picasso-2.5.2.jar')
-    // Jsoup
-    implementation 'org.jsoup:jsoup:1.10.2'
-    implementation project(':KorIndexerRecyclerView')
+
 }
