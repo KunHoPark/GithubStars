@@ -1,6 +1,5 @@
 package com.leo.githubstars.ui.main
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -48,7 +47,9 @@ class MainFragment @Inject constructor() : BaseFragment() {
             setLifecycleOwner(activity)
         }
 
+        subscribe()
         initViewPager()
+
     }
 
     private fun initViewPager() {
@@ -77,17 +78,12 @@ class MainFragment @Inject constructor() : BaseFragment() {
     }
 
     override fun initClickListener() {
-
     }
 
-    private fun subscribeLiveData() {
-        with(viewModel){
-            isLoadingSuccess.observe(this@MainFragment, Observer<Boolean> {
-//                dataLoading.visibility = View.GONE
-                if(it == false){
-                    showToast("이미지 정보를 가져 오는데 실패 하였습니다.")
-                }
-            })
+    override fun subscribe() {
+        with(viewModel) {
+            super.subScribeMessage(this.message)
         }
+
     }
 }

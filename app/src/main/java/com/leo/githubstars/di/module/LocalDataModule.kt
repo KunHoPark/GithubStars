@@ -2,7 +2,7 @@ package com.leo.githubstars.di.module;
 
 import android.app.Application
 import android.arch.persistence.room.Room
-import com.leo.githubstars.data.local.WalletRoomDatabase
+import com.leo.githubstars.data.local.BookmarkRoomDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -18,8 +18,8 @@ class LocalDataModule {
 
     @Provides
     @Singleton
-    fun provideWalletDatabase(application : Application): WalletRoomDatabase
-            = Room.databaseBuilder(application, WalletRoomDatabase::class.java, "github_bookmark_user.db")
+    fun provideWalletDatabase(application : Application): BookmarkRoomDatabase
+            = Room.databaseBuilder(application, BookmarkRoomDatabase::class.java, "github_bookmark_user.db")
                 .allowMainThreadQueries()
                 .build()
 }

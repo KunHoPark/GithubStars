@@ -1,7 +1,7 @@
 package com.leo.githubstars.di.module;
 
 
-import com.leo.githubstars.data.local.WalletRoomDatabase
+import com.leo.githubstars.data.local.BookmarkRoomDatabase
 import com.leo.githubstars.data.remote.api.RemoteApi
 import com.leo.githubstars.data.repository.AuthRepository
 import com.leo.githubstars.data.repository.RemoteRepository
@@ -22,8 +22,8 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideRemoteRepository( @Named("authorized") authRestAdapter: Retrofit, walletRoomDatabase: WalletRoomDatabase): RemoteRepository =
-            RemoteRepository(authRestAdapter.create(RemoteApi::class.java))
+    fun provideRemoteRepository( @Named("authorized") authRestAdapter: Retrofit, bookmarkRoomDatabase: BookmarkRoomDatabase): RemoteRepository =
+            RemoteRepository(authRestAdapter.create(RemoteApi::class.java), bookmarkRoomDatabase.userDao())
 
     @Provides
     @Singleton

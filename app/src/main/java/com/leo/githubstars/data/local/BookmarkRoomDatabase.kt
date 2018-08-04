@@ -8,7 +8,7 @@ import android.arch.persistence.room.RoomDatabase
 ]
         , version = 1)
 
-abstract class WalletRoomDatabase : RoomDatabase() {
+abstract class BookmarkRoomDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
 

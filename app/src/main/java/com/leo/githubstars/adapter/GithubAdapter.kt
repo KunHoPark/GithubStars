@@ -18,6 +18,7 @@ class GithubAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     internal val tag = this.javaClass.simpleName
     private var listener: OnItemClickListener? = null
     private var listData: List<UserData>? = null
+    private var searchWord: String?= null               // 검색 단어
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GithubBindingViewHolder {
         val binding = ItemGithubViewHolderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -32,7 +33,7 @@ class GithubAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         listData?.let {
             if (it.size>position){
                 val item = it[position]
-                (holder as GithubBindingViewHolder).onBind(item, position, it.size)
+                (holder as GithubBindingViewHolder).onBind(item, position, searchWord)
             }
         }
     }
@@ -45,12 +46,14 @@ class GithubAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun removeItmes(){
-        listData
+    override fun getItemCount(): Int {
+        return listData?.let {
+            it.size
+        }?:0
     }
 
-    override fun getItemCount(): Int {
-        return listData!!.size
+    fun setSearchWord(searchWord: String?){
+        this.searchWord = searchWord
     }
 
 }

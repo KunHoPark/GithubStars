@@ -16,4 +16,5 @@
     <color name="subgray">#dadada</color>
     <color name="random_1">#f4eed7</color>
     <color name="random_2">#e4e5f6</color>
+    <color name="search_highlighted_color">#ffce00</color>
 </resources>

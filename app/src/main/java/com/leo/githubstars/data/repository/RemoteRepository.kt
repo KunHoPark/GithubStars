@@ -1,7 +1,10 @@
 package com.leo.githubstars.data.repository
 
+import android.arch.lifecycle.LiveData
 import com.leo.githubstars.application.MyGithubStarsApp
 import com.leo.githubstars.data.local.SearchData
+import com.leo.githubstars.data.local.UserDao
+import com.leo.githubstars.data.local.UserData
 import com.leo.githubstars.data.remote.api.RemoteApi
 import com.leo.githubstars.util.NetworkUtils
 import io.reactivex.Flowable
@@ -10,7 +13,7 @@ import java.io.IOException
 import java.util.*
 
 
-class RemoteRepository(private val authRestAdapter: RemoteApi) {
+class RemoteRepository(private val remoteApi: RemoteApi, private val userDao: UserDao) {
     private val tag = this.javaClass.simpleName
 
 
@@ -28,11 +31,30 @@ class RemoteRepository(private val authRestAdapter: RemoteApi) {
             quereis["sort"] = "login"
             quereis["order"] = "asc"
 
-            authRestAdapter.getGithub(quereis).subscribeOn(Schedulers.io())
+            remoteApi.getGithub(quereis).subscribeOn(Schedulers.io())
         }else{
             Flowable.error {throw IOException("Network connection fail")}
         }
     }
+
+    /**
+     * Bookmark db에 유저 정보를 저장 한다.
+     */
+    fun insertUserDataFromDb(userData: UserData) {
+        if (userDao.getUserDataById(userData.id.toInt()) == null){
+            userDao.insert(userData)
+        }
+    }
+
+    /**
+     * Bookmark db에서 삭제 한다.
+     */
+    fun deleteUserDataFromDb(userData: UserData) {
+        userDao.delete(userData)
+    }
+
+    fun getUserDataFromDb(): LiveData<List<UserData>> = userDao.getLiveUserData()
+
 
     /**
      * 네트워크 연결 상태 확인. 만약 미 연결되어 있으면 Exception 처리 한다.

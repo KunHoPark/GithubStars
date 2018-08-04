@@ -11,6 +11,8 @@ object ActivityUtil {
      */
     fun startMainActivity(context: Context) {
         Intent(context, MainActivity::class.java).run {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context?.startActivity(this)
         }
     }

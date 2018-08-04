@@ -1,5 +1,6 @@
 package com.leo.githubstars.ui.main.tab
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
 import android.os.Bundle
@@ -11,8 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import ccom.leo.githubstars.ui.base.BaseTabFragment
-import com.leo.githubstars.adapter.GithubAdapter
-import com.leo.githubstars.callback.OnItemClickListener
+import com.leo.githubstars.data.local.UserData
 import com.leo.githubstars.databinding.GithubTabFragmentBinding
 import com.leo.githubstars.di.scope.ActivityScoped
 import com.leo.githubstars.ui.main.MainViewModel
@@ -32,13 +32,11 @@ import javax.inject.Inject
 class GithubTabFragment @Inject constructor() : BaseTabFragment() {
     internal val tag = this.javaClass.simpleName
 
-    private var viewModel: MainViewModel?= null
     private lateinit var viewDataBinding: GithubTabFragmentBinding
 
     @Inject lateinit var viewModelFactory: MainViewModelFactory
-    private val gettyImageAdapter = GithubAdapter()
+
     private var scrollListener: InfiniteScrollListener?= null
-    private var searchWord: String?= null
 
     companion object {
         fun newInstance(): GithubTabFragment = GithubTabFragment()
@@ -59,9 +57,9 @@ class GithubTabFragment @Inject constructor() : BaseTabFragment() {
                 val gridLayoutManager = GridLayoutManager(activity, 1)
                 gridLayoutManager.orientation = LinearLayoutManager.VERTICAL
                 setHasFixedSize(true)
-                adapter = gettyImageAdapter
+                this.adapter = githubAdapter
                 layoutManager = gridLayoutManager
-                scrollListener = InfiniteScrollListener({loadSearchDataFromGithub(searchWord!!, false)}, gridLayoutManager)
+                scrollListener = InfiniteScrollListener({loadSearchDataFromGithub(getSearchWord(), false)}, gridLayoutManager)
                 addOnScrollListener(scrollListener)
             }
 
@@ -73,28 +71,25 @@ class GithubTabFragment @Inject constructor() : BaseTabFragment() {
         val searchEditText = svInput.findViewById(android.support.v7.appcompat.R.id.search_src_text) as EditText
         searchEditText.setTextColor(Color.WHITE)
 
-        observeLiveData()
+        subscribe()
     }
 
-    private fun loadSearchDataFromGithub(searchWord: String, isReload: Boolean) {
-        viewModel?.let {
-            it.loadSearchDataFromGithub(searchWord, isReload)
+    private fun loadSearchDataFromGithub(searchWord: String?, isReload: Boolean) {
+        viewModel?.run {
+            searchWord?.let {
+                this.loadSearchDataFromGithub(searchWord, isReload)
+            }
         }
     }
 
     override fun initClickListener() {
-        gettyImageAdapter.setOnItemClickListener(object : OnItemClickListener{
-            override fun onItemClick(item: Object, view: View, position: Int) {
-                hideKeyboard()
-            }
-
-        })
+        super.initClickListener()
 
         svInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 LeoLog.i(tag, "setOnQueryTextListener query= $query")
                     query?.let {
-                        searchWord = it
+                        setSearchWord(it)
                         loadSearchDataFromGithub(it, true)
                         scrollListener?.let {
                             it.previousTotal = 0
@@ -107,7 +102,7 @@ class GithubTabFragment @Inject constructor() : BaseTabFragment() {
                 LeoLog.i(tag, "onQueryTextChange newText= $newText")
                 viewModel?.run {
                     newText?.let {
-                        searchWord = it
+                        setSearchWord(it)
                         loadSearchDataFromGithub(it, false)
                         scrollListener?.let {
                             it.previousTotal = 0
@@ -118,14 +113,30 @@ class GithubTabFragment @Inject constructor() : BaseTabFragment() {
             }
 
         })
-//        svInput.onActionViewExpanded()
     }
 
-    private fun observeLiveData() {
-//        viewModel.getAllAccountEntities().observe(this, Observer<List<AccountEntity>> {
-//            it?.run {
-//                accountsTabAdapter.addItems(this)
-//            }
-//        })
+    override fun subscribe() {
+
+        viewModel?.run {
+            super.subScribeMessage(this.message)
+
+            // Bookmark db에 등록된 유저 정보가 변경 되었을때.
+            getUserDataFromDb().observe(this@GithubTabFragment, Observer<List<UserData>> {
+                it?.let {
+                    this.mergeSearchDataAndBookmarkData(it)
+                }
+            })
+
+            // 리스트 내용 업데이트.
+            reloadListData.observe(this@GithubTabFragment, Observer<Boolean> {
+                if (it == true) {
+                    githubAdapter?.let {
+                        githubAdapter.notifyDataSetChanged()
+                    }
+                }
+            })
+
+        }
     }
+
 }

@@ -13,7 +13,6 @@ import com.leo.githubstars.application.Constants
 import com.leo.githubstars.databinding.SplashFragmentBinding
 import com.leo.githubstars.di.scope.ActivityScoped
 import com.leo.githubstars.util.ActivityUtil
-import com.leo.githubstars.util.LeoLog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.splash_fragment.*
@@ -23,7 +22,7 @@ import javax.inject.Inject
 class SplashFragment @Inject constructor() : BaseFragment() {
     internal val tag = this.javaClass.simpleName
 
-    private lateinit var viewModel: SplashViewModel
+    lateinit var viewModel: SplashViewModel
     private lateinit var viewDataBinding: SplashFragmentBinding
     @Inject lateinit var viewModelFactory: SplashViewModelFactory
 
@@ -48,12 +47,11 @@ class SplashFragment @Inject constructor() : BaseFragment() {
             setLifecycleOwner(activity)
         }
 
-        subscribeLiveData()
+        subscribe()
         loadData()
     }
 
     private fun loadData() {
-
     }
 
     override fun initClickListener() {
@@ -70,34 +68,34 @@ class SplashFragment @Inject constructor() : BaseFragment() {
         }
     }
 
-    private fun subscribeLiveData() {
-        with(viewModel){
-            isLoadingSuccess.observe(this@SplashFragment, Observer<Boolean> {
+    override fun subscribe() {
+        with(viewModel) {
+            super.subScribeMessage(this.message)
 
-                if(it == true){
+            this.isLoadingSuccess.observe(this@SplashFragment, Observer<Boolean> {
+
+                if (it == true) {
                     dataLoading.visibility = View.VISIBLE
-                }else{
+                } else {
                     dataLoading.visibility = View.GONE
                 }
             })
+
+            this.accessToken
+                    .filter { !it.isEmpty }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        ActivityUtil.startMainActivity(activity!!)
+                        activity!!.finish()
+                    }
+                    .apply {
+                        viewDisposables.add(this)
+                    }
+
+            this.loadAccessToken()
+
         }
 
-        viewModel.accessToken
-                .filter { !it.isEmpty }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    ActivityUtil.startMainActivity(activity!!)
-                    activity!!.finish()
-                }
-
-        viewModel.loadAccessToken()
-
-
-        viewModel.message
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    LeoLog.e(tag, it)
-                }
 
         SplashFragment.onNewIntent
                 .observeOn(AndroidSchedulers.mainThread())

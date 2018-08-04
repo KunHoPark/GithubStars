@@ -44,8 +44,8 @@
                 android:maxLines="2"
                 android:ellipsize="end"
                 style="@style/SH1_BM_01"
-                android:text="@{userData.login}"
                 />
+            <!--android:text="@{userData.login}"-->
 
             <TextView
                 android:id="@+id/tvDesc"
@@ -57,8 +57,8 @@
                 style="@style/C1_GR_01"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                 android:textColor="@color/main_gray_text"
-                android:text="@{userData.url}"
                 />
+            <!--android:text="@{userData.url}"-->
 
 
         </android.support.constraint.ConstraintLayout>
@@ -71,8 +71,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/layoutContents"
-            android:src="@drawable/btn_done_pre" />
+            app:layout_constraintLeft_toRightOf="@+id/layoutContents"/>
 
 
         <View

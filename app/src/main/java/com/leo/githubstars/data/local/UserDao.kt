@@ -7,13 +7,13 @@ import io.reactivex.Flowable
 @Dao
 interface UserDao {
 
-    @Query("SELECT * FROM bookmark_user_table")
+    @Query("SELECT * FROM bookmark_user_table ORDER BY login ASC")
     fun getLiveUserData(): LiveData<List<UserData>>
 
-    @Query("SELECT * FROM bookmark_user_table")
+    @Query("SELECT * FROM bookmark_user_table ORDER BY login ASC")
     fun getUserData(): List<UserData>
 
-    @Query("SELECT * FROM bookmark_user_table")
+    @Query("SELECT * FROM bookmark_user_table ORDER BY login ASC")
     fun getUserDataRx(): Flowable<List<UserData>>
 
     @Query("SELECT * FROM bookmark_user_table WHERE id = (:id)")
@@ -29,24 +29,24 @@ interface UserDao {
     fun queryUserDataRx(limit:Int, offset:Int): Flowable<List<UserData>>
 
     @Insert
-    fun insert(coinWalletEntity: UserData)
+    fun insert(userData: UserData)
 
     @Insert
-    fun insertAll(coinWalletEntities: List<UserData>)
+    fun insertAll(userData: List<UserData>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun replaceAll(gettyImages: List<UserData>)
+    fun replaceAll(userData: List<UserData>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun replace(gettyImage: UserData)
+    fun replace(userData: UserData)
 
     @Delete
-    fun delete(coinWalletEntity: UserData)
+    fun delete(userData: UserData)
 
     @Query("DELETE FROM bookmark_user_table")
     fun deleteAll()
 
     @Update
-    fun update(coinWalletEntity: UserData)
+    fun update(userData: UserData)
 
 }

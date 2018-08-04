@@ -1,5 +1,6 @@
 package com.leo.githubstars.ui.main.tab
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
@@ -8,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ccom.leo.githubstars.ui.base.BaseTabFragment
-import com.leo.githubstars.adapter.GithubAdapter
+import com.leo.githubstars.data.local.UserData
 import com.leo.githubstars.databinding.BookmarkTabFragmentBinding
 import com.leo.githubstars.di.scope.ActivityScoped
 import com.leo.githubstars.ui.main.MainViewModel
@@ -25,11 +26,9 @@ import javax.inject.Inject
 class BookmarkTabFragment @Inject constructor() : BaseTabFragment() {
     internal val tag = this.javaClass.simpleName
 
-    private var viewModel: MainViewModel?= null
     private lateinit var viewDataBinding: BookmarkTabFragmentBinding
 
     @Inject lateinit var viewModelFactory: MainViewModelFactory
-    private val gettyImageAdapter = GithubAdapter()
 
     companion object {
         fun newInstance(): BookmarkTabFragment = BookmarkTabFragment()
@@ -50,7 +49,7 @@ class BookmarkTabFragment @Inject constructor() : BaseTabFragment() {
                 val gridLayoutManager = GridLayoutManager(activity, 1)
                 gridLayoutManager.orientation = LinearLayoutManager.VERTICAL
                 setHasFixedSize(true)
-                adapter = gettyImageAdapter
+                this.adapter = githubAdapter
                 layoutManager = gridLayoutManager
             }
 
@@ -58,25 +57,34 @@ class BookmarkTabFragment @Inject constructor() : BaseTabFragment() {
             setLifecycleOwner(activity)
         }
 
-        observeLiveData()
+        subscribe()
+        loadData()
     }
 
     fun loadData() {
-//        viewModel.loadCollections(Constants.LIMIT, 1 * Constants.OFFSET, false)
         viewModel?.let {
-//            it.loadGithub()
+
         }
     }
 
     override fun initClickListener() {
+        super.initClickListener()
     }
 
-    private fun observeLiveData() {
+    override fun subscribe() {
 
-//        viewModel.getBtcAccountEntities().observe(this, Observer<List<AccountEntity>> {
-//            it?.run {
-//                accountsTabAdapter.addItems(this)
-//            }
-//        })
+        viewModel?.run {
+            super.subScribeMessage(this.message)
+
+            // Bookmark db에 등록된 유저 정보가 변경 되었을때.
+            getUserDataFromDb().observe(this@BookmarkTabFragment, Observer<List<UserData>> {
+                it?.let {
+                    githubAdapter.addItems(it)
+                }
+
+            })
+
+        }
+
     }
 }
