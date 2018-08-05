@@ -1,5 +1,6 @@
 package ccom.leo.githubstars.ui.base
 
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import com.leo.githubstars.R
@@ -33,7 +34,12 @@ open abstract class BaseActivity: DaggerAppCompatActivity() {
                 .skip(1)
                 .filter { interval -> interval.time() < 2000 }
                 .subscribe {
-                    finishAffinity()
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        finishAffinity()
+                    }else{
+                        finish()
+                    }
+
                 })
     }
 

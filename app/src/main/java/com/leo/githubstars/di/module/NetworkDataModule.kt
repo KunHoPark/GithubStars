@@ -91,7 +91,6 @@ class NetworkDataModule {
     @Singleton
     fun provideAuthInterceptor(): AuthInterceptor {
         val provider = LeoSharedPreferences(MyGithubStarsApp.applicationContext()).getString(MyGithubStarsApp.resources().getString(R.string.pref_action_key_auth_token) )
-//        val token =  provider ?: throw IllegalStateException("authToken cannot be null")
         val token =  provider ?: ""
         return AuthInterceptor(token)
     }
