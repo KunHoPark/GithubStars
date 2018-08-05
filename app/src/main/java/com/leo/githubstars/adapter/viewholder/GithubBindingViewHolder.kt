@@ -67,7 +67,7 @@ class GithubBindingViewHolder(private var binding: ItemGithubViewHolderBinding, 
             name = item.url
         }
 
-        if (name.isNullOrEmpty()) name = "title is null"
+        if (name.isNullOrEmpty()) name = ""
 
 
         // login에 대한 highlight.
@@ -81,7 +81,14 @@ class GithubBindingViewHolder(private var binding: ItemGithubViewHolderBinding, 
 
         // name에 대한 highlight.
         var indexName: Int = name?.indexOf(keyword!!)
-        var sbName = SpannableStringBuilder(item.url)           // original
+
+        var sbName: SpannableStringBuilder?= null
+        sbName = if (item.url.isNullOrEmpty()) {
+            SpannableStringBuilder(name)
+        } else {
+            SpannableStringBuilder(item.url)           // original
+        }
+
         while (indexName >= 0) {
             sbName.setSpan(ForegroundColorSpan( MyGithubStarsApp.applicationContext().resources.getColor(R.color.search_highlighted_color)), indexName,
                     indexName + keyword!!.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)

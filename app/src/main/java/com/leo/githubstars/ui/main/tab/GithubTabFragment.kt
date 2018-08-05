@@ -87,7 +87,7 @@ class GithubTabFragment @Inject constructor() : BaseTabFragment() {
         // 검색 필드 리스너.
         RxTextView.textChangeEvents(svGithubInput)
                 .subscribeOn(Schedulers.io())
-                .debounce(400, TimeUnit.MILLISECONDS)
+                .debounce(1000, TimeUnit.MILLISECONDS)
                 .filter {
                     it.text().toString().length >= 2
                 }

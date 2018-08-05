@@ -79,6 +79,7 @@ class MainViewModel
                 .subscribe(
                         {
                             it?.let {
+//                                getUserDetailFromGithub(it.items)
                                 totalCount = it.totalCount.toInt()
                                 searchUserData.addAll(it.items)     //리스트 갱신. AdapterBindings를 통해 업데이트 된다.
                             }
@@ -135,6 +136,37 @@ class MainViewModel
                     }
 
         }
+    }
+
+    /**
+     * 개인의상세 정보 가져 오기.
+     */
+    private fun getUserDetailFromGithub(userData: ArrayList<UserData>){
+        Flowable.just(userData)
+                .subscribeOn(Schedulers.io())
+                .map {
+                    it.forEach { userData ->
+                        remoteRepository.getUserDetailFromGithub(userData)
+                                .subscribeOn(Schedulers.io())
+                                .subscribe {
+                                    it?.let {
+//                                        if (!it.name.isNullOrEmpty()){
+//                                            userData.name = it.name
+//                                        }
+                                    }
+                                }
+                                .apply {
+                                    compositeDisposable.add(this)
+                                }
+                    }
+                }
+                .subscribe{
+                    reloadListData.postValue(true)
+                }
+                .apply {
+                    compositeDisposable.add(this)
+                }
+
     }
 
     /**

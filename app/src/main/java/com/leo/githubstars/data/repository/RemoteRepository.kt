@@ -44,6 +44,10 @@ class RemoteRepository(private val remoteApi: RemoteApi, private val userDao: Us
         return userDao.searchLiveUserDataRaw(searchQuery)
     }
 
+    fun getUserDetailFromGithub(userData: UserData): Flowable<UserData> {
+        return remoteApi.getUserDetail(userData.login)
+    }
+
     /**
      * Bookmark db에 유저 정보를 저장 한다.
      */

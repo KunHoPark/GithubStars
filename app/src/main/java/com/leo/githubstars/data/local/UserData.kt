@@ -30,8 +30,7 @@ data class UserData(
         @ColumnInfo(name = "is_bookmark")          // Bookmark 여부.
         var isBookmark:Boolean
 
-
-) : Serializable
+        ) : Serializable
 
 
 
