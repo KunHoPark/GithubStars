@@ -5,18 +5,21 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import ccom.leo.githubstars.ui.base.BaseTabFragment
+import com.jakewharton.rxbinding2.widget.RxTextView
 import com.leo.githubstars.data.local.UserData
 import com.leo.githubstars.databinding.BookmarkTabFragmentBinding
 import com.leo.githubstars.di.scope.ActivityScoped
 import com.leo.githubstars.ui.main.MainViewModel
 import com.leo.githubstars.ui.main.MainViewModelFactory
-import com.leo.githubstars.util.LeoLog
-import kotlinx.android.synthetic.main.view_searchview_layout.*
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.bookmark_tab_fragment.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -48,7 +51,7 @@ class BookmarkTabFragment @Inject constructor() : BaseTabFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[MainViewModel::class.java]
         with(viewDataBinding) {
 
-            recyclerView?.apply {
+            recyclerViewBookmark?.apply {
                 val gridLayoutManager = GridLayoutManager(activity, 1)
                 gridLayoutManager.orientation = LinearLayoutManager.VERTICAL
                 setHasFixedSize(true)
@@ -82,28 +85,34 @@ class BookmarkTabFragment @Inject constructor() : BaseTabFragment() {
         super.initClickListener()
 
         // 검색 필드 리스너.
-        svInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query: String?): Boolean {                   // 소프트 키보드의 검색 버튼.
-                LeoLog.i(tag, "setOnQueryTextListener query= $query")
-                query?.let {
+        RxTextView.textChangeEvents(svBookmarkInput)
+                .subscribeOn(Schedulers.io())
+                .debounce(300, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe{
+                    val words = it.text().toString()
+                    viewModel?.run {
+                        words?.let {
+                            setSearchWord(it)
+                            loadData()
+                        }
+                    }
+                }.apply {
+                    disposables.add(this)
+                }
+
+        // Enter key에 대한 처리.
+        svBookmarkInput.setOnEditorActionListener { textView, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                val text = textView.text.toString()
+                text?.let {
                     setSearchWord(it)
                     loadData()
                 }
-                return true
+                return@setOnEditorActionListener true
             }
-
-            override fun onQueryTextChange(newText: String?): Boolean {                 // 입력 필드의 값이 변경 되면 호출 됨.
-                LeoLog.i(tag, "onQueryTextChange newText= $newText")
-                viewModel?.run {
-                    newText?.let {
-                        setSearchWord(it)
-                        loadData()
-                    }
-                }
-                return true
-            }
-
-        })
+            return@setOnEditorActionListener false
+        }
     }
 
     /**

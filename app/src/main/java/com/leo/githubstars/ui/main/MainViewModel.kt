@@ -39,14 +39,7 @@ class MainViewModel
 
         Flowable.just(searchValue)
                 .subscribeOn(Schedulers.io())
-                .filter {
-                    //2 이상 일때만.
-                    searchValue.length >= 2
-                }
-                .debounce(300, TimeUnit.MILLISECONDS)               //정해진 안에 들어 오는 키는 무시하고 마지막에 입력된 키만 처리 한다.
                 .map {
-                    LeoLog.i(tag, "loadSearchDataFromGithub debounce searchValue=$searchValue")
-
                     // 이전에 입력 했던 키 값이 변경 되었으면 모든 값을 초기화 한다.
                     beforeSearchValue?.let {
                         if (it != searchValue){

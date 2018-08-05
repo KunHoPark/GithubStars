@@ -10,7 +10,7 @@ import com.leo.githubstars.ui.main.MainViewModel
 
 open abstract class BaseTabFragment: BaseFragment() {
 
-    protected val githubAdapter = GithubAdapter()
+    protected var githubAdapter = GithubAdapter()
     protected var viewModel: MainViewModel?= null
     private var searchWord: String?= null
 

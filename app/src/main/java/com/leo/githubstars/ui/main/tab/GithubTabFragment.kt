@@ -2,25 +2,28 @@ package com.leo.githubstars.ui.main.tab
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
+import android.view.inputmethod.EditorInfo
 import ccom.leo.githubstars.ui.base.BaseTabFragment
+import com.jakewharton.rxbinding2.widget.RxTextView
 import com.leo.githubstars.data.local.UserData
 import com.leo.githubstars.databinding.GithubTabFragmentBinding
 import com.leo.githubstars.di.scope.ActivityScoped
 import com.leo.githubstars.ui.main.MainViewModel
 import com.leo.githubstars.ui.main.MainViewModelFactory
 import com.leo.githubstars.util.InfiniteScrollListener
-import com.leo.githubstars.util.LeoLog
-import kotlinx.android.synthetic.main.view_searchview_layout.*
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.github_tab_fragment.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+
+
 
 /**
  * GithubTabFragment
@@ -53,7 +56,7 @@ class GithubTabFragment @Inject constructor() : BaseTabFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[MainViewModel::class.java]
         with(viewDataBinding) {
 
-            recyclerView?.apply {
+            recyclerViewGithub?.apply {
                 val gridLayoutManager = GridLayoutManager(activity, 1)
                 gridLayoutManager.orientation = LinearLayoutManager.VERTICAL
                 setHasFixedSize(true)
@@ -66,10 +69,6 @@ class GithubTabFragment @Inject constructor() : BaseTabFragment() {
             this.mainViewModel = viewModel
             setLifecycleOwner(activity)
         }
-
-        //검색텍스트 흰색으로 변경
-        val searchEditText = svInput.findViewById(android.support.v7.appcompat.R.id.search_src_text) as EditText
-        searchEditText.setTextColor(Color.WHITE)
 
         subscribe()
     }
@@ -86,34 +85,45 @@ class GithubTabFragment @Inject constructor() : BaseTabFragment() {
         super.initClickListener()
 
         // 검색 필드 리스너.
-        svInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query: String?): Boolean {               // 소프트 키보드의 검색 버튼.
-                LeoLog.i(tag, "setOnQueryTextListener query= $query")
-                    query?.let {
-                        setSearchWord(it)
-                        loadSearchDataFromGithub(it, true)
-                        scrollListener?.let {
-                            it.previousTotal = 0
-                        }
-                    }
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {             // 입력 필드의 값이 변경 되면 호출 됨.
-                LeoLog.i(tag, "onQueryTextChange newText= $newText")
-                viewModel?.run {
-                    newText?.let {
-                        setSearchWord(it)
-                        loadSearchDataFromGithub(it, false)
-                        scrollListener?.let {
-                            it.previousTotal = 0
-                        }
-                    }
+        RxTextView.textChangeEvents(svGithubInput)
+                .subscribeOn(Schedulers.io())
+                .debounce(400, TimeUnit.MILLISECONDS)
+                .filter {
+                    it.text().toString().length >= 2
                 }
-                return true
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe{
+                    val words = it.text().toString()
+                    viewModel?.run {
+                        words?.let {
+                            setSearchWord(it)
+                            loadSearchDataFromGithub(it, false)
+                            scrollListener?.let {
+                                it.previousTotal = 0
+                            }
+                        }
+                    }
+                }.apply {
+                    disposables.add(this)
+                }
+
+        // Enter key에 대한 처리.
+        svGithubInput.setOnEditorActionListener { textView, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                val text = textView.text.toString()
+                text?.let {
+                    setSearchWord(text)
+                    loadSearchDataFromGithub(it, true)
+                        scrollListener?.let {
+                            it.previousTotal = 0
+                        }
+                }
+                return@setOnEditorActionListener true
             }
 
-        })
+            return@setOnEditorActionListener false
+        }
+
     }
 
     /**
@@ -134,9 +144,7 @@ class GithubTabFragment @Inject constructor() : BaseTabFragment() {
             // 리스트 내용 업데이트.
             reloadListData.observe(this@GithubTabFragment, Observer<Boolean> {
                 if (it == true) {
-                    githubAdapter?.let {
-                        githubAdapter.notifyDataSetChanged()
-                    }
+                    githubAdapter.notifyDataSetChanged()
                 }
             })
 
