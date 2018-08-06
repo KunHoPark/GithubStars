@@ -26,10 +26,21 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+subprojects {
+    project.configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'com.android.support'
+                    && !details.requested.name.contains('multidex') ) {
+                details.useVersion "26.1.0"
+            }
+        }
+    }
+}
+
 ext {
     // Sdk and tools
     minSdkVersion = 15
     targetSdkVersion = 27
     compileSdkVersion = 27
-    buildToolsVersion = '27.0.2'
+    buildToolsVersion = '27.0.3'
 }
