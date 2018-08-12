@@ -33,6 +33,9 @@ interface UserDao {
     @RawQuery(observedEntities = [UserData::class])
     fun searchLiveUserDataRaw(query: SupportSQLiteQuery): LiveData<List<UserData>>
 
+    @Query("SELECT * FROM bookmark_user_table WHERE login LIKE :keyword ORDER BY LOWER(login) ASC")
+    fun searchLiveUserDataRaw(keyword: String) : LiveData<List<UserData>>
+
     @Insert
     fun insert(userData: UserData)
 

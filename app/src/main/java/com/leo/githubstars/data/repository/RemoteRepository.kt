@@ -1,7 +1,6 @@
 package com.leo.githubstars.data.repository
 
 import android.arch.lifecycle.LiveData
-import android.arch.persistence.db.SimpleSQLiteQuery
 import com.leo.githubstars.application.MyGithubStarsApp
 import com.leo.githubstars.data.local.SearchData
 import com.leo.githubstars.data.local.UserDao
@@ -39,9 +38,12 @@ class RemoteRepository(private val remoteApi: RemoteApi, private val userDao: Us
     /**
      * Bookmark db에서 문자열 검색.
      */
-    fun loadSearchDataFromDb(searchValue: String): LiveData<List<UserData>> {
-        val searchQuery = SimpleSQLiteQuery("SELECT * FROM bookmark_user_table WHERE login LIKE '%$searchValue%' ORDER BY LOWER(login) ASC")
-        return userDao.searchLiveUserDataRaw(searchQuery)
+//    fun loadSearchDataFromDb(keyword: String): LiveData<List<UserData>> {
+//        val searchQuery = SimpleSQLiteQuery("SELECT * FROM bookmark_user_table WHERE login LIKE '%$searchValue%' ORDER BY LOWER(login) ASC")
+//        return userDao.searchLiveUserDataRaw(searchQuery)
+//    }
+    fun loadSearchDataFromDb(keyword: String): LiveData<List<UserData>> {
+        return userDao.searchLiveUserDataRaw("%$keyword%")
     }
 
     fun getUserDetailFromGithub(userData: UserData): Flowable<UserData> {

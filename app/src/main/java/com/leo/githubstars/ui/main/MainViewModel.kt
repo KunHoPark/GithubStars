@@ -14,6 +14,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -142,29 +143,35 @@ class MainViewModel
      * 개인의상세 정보 가져 오기.
      */
     private fun getUserDetailFromGithub(userData: ArrayList<UserData>){
+        val executorService = Executors.newFixedThreadPool(5)
+
         Flowable.just(userData)
                 .subscribeOn(Schedulers.io())
-                .map {
-                    it.forEach { userData ->
-                        remoteRepository.getUserDetailFromGithub(userData)
-                                .subscribeOn(Schedulers.io())
-                                .subscribe {
-                                    it?.let {
-//                                        if (!it.name.isNullOrEmpty()){
-//                                            userData.name = it.name
-//                                        }
-                                    }
-                                }
-                                .apply {
-                                    compositeDisposable.add(this)
-                                }
-                    }
+                .window(5)
+                .flatMap { window ->
+                    Flowable.just(window)
+                            .subscribeOn(Schedulers.from(executorService))
+
                 }
-                .subscribe{
+                .subscribe {
+                    it.subscribe {
+                        it.forEachIndexed { index, userData ->
+                            //                                        LeoLog.i(tag, "index=$index, login=${userData.login}")
+                            remoteRepository.getUserDetailFromGithub(userData)
+                                    .subscribe {
+                                        it?.let {
+//                                            LeoLog.i(tag, "index=$index, login=${userData.login}, name=${it.name}")
+//                                            userData.name = it.name
+                                        }
+                                    }
+                        }
+                    }
+
                     reloadListData.postValue(true)
                 }
                 .apply {
                     compositeDisposable.add(this)
+//                    executorService.shutdown()
                 }
 
     }

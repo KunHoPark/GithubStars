@@ -27,10 +27,14 @@ data class UserData(
         @ColumnInfo(name = "url")
         var url:String,                            // 유저의 상세 정보를 조회 할 때 사용 한다.
 
+//        @ColumnInfo(name = "user_name")
+//        var name:String,
+
         @ColumnInfo(name = "is_bookmark")          // Bookmark 여부.
         var isBookmark:Boolean
 
-        ) : Serializable
+
+) : Serializable
 
 
 
