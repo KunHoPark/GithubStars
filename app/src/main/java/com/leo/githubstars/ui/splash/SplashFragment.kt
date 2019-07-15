@@ -29,11 +29,13 @@ class SplashFragment @Inject constructor() : BaseFragment() {
     companion object {
         var code: String?= null
         val onNewIntent: PublishSubject<String> = PublishSubject.create()
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         viewDataBinding = SplashFragmentBinding.inflate(inflater, container, false)
+
 
         return viewDataBinding.root
     }
@@ -102,7 +104,7 @@ class SplashFragment @Inject constructor() : BaseFragment() {
 
         }
 
-        // onNewIntent를 처리 하기 위함. 로그인 버튼을 누른 후 발생됨. Github site로 부터 code 값을 가져 온다. ntent-filter의 scheme는 manifest에 설정 되어 있다.
+        // onNewIntent를 처리 하기 위함. 로그인 버튼을 누른 후 발생됨. Github site로 부터 code 값을 가져 온다. Intent-filter의 scheme는 manifest에 설정 되어 있다.
         SplashFragment.onNewIntent
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
