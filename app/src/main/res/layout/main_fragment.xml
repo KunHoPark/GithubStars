@@ -12,11 +12,11 @@
     </data>
 
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.TabLayout
+        <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayoutAccounts"
             android:layout_width="0dp"
             android:layout_height="48dp"
@@ -26,21 +26,21 @@
             app:tabIndicatorHeight="0dp"
             app:tabSelectedTextColor="@color/red">
 
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabUpcomingShow"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 style="@style/C1_GR_01"/>
 
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabCurrentShow"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 style="@style/C1_GR_01"/>
 
-        </android.support.design.widget.TabLayout>
+        </com.google.android.material.tabs.TabLayout>
 
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPagerAccounts"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -53,6 +53,6 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tabLayoutAccounts" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

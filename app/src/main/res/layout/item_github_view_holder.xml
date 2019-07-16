@@ -9,7 +9,7 @@
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp">
@@ -26,7 +26,7 @@
             />
         <!--app:loadImage="@{userData.avatarUrl}"-->
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutContents"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -44,6 +44,8 @@
                 android:maxLines="2"
                 android:ellipsize="end"
                 style="@style/SH1_BM_01"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 />
             <!--android:text="@{userData.login}"-->
 
@@ -56,12 +58,13 @@
                 android:ellipsize="end"
                 style="@style/C1_GR_01"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                app:layout_constraintLeft_toLeftOf="parent"
                 android:textColor="@color/main_gray_text"
                 />
             <!--android:text="@{userData.url}"-->
 
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
             android:id="@+id/ivBookmark"
@@ -82,6 +85,6 @@
             app:layout_constraintLeft_toRightOf="@id/ivThumbnail" />
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 

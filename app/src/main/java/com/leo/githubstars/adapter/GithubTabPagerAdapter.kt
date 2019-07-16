@@ -1,8 +1,8 @@
 package com.leo.githubstars.adapter
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 import com.leo.githubstars.R
 import com.leo.githubstars.application.MyGithubStarsApp
 import com.leo.githubstars.ui.main.MainFragment

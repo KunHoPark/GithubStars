@@ -1,10 +1,10 @@
 package com.leo.githubstars.ui.main
 
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.ObservableArrayList
-import ccom.leo.githubstars.ui.base.BaseViewModel
+import androidx.databinding.ObservableArrayList
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.leo.githubstars.ui.base.BaseViewModel
 import com.leo.githubstars.application.Constants
 import com.leo.githubstars.data.local.UserData
 import com.leo.githubstars.data.repository.RemoteRepository

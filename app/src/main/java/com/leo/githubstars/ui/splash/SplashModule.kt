@@ -1,7 +1,6 @@
 package com.leo.githubstars.ui.splash
 
 import com.leo.githubstars.data.repository.AuthRepository
-import com.leo.githubstars.data.repository.RemoteRepository
 import com.leo.githubstars.di.scope.ActivityScoped
 import com.leo.githubstars.di.scope.FragmentScoped
 import dagger.Module

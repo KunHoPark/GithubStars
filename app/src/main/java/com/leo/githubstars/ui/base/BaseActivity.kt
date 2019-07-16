@@ -1,4 +1,4 @@
-package ccom.leo.githubstars.ui.base
+package com.leo.githubstars.ui.base
 
 import android.os.Build
 import android.os.Bundle

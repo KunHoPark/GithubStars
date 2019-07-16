@@ -1,10 +1,10 @@
 package com.leo.githubstars.adapter.viewholder
 
-import android.support.v7.widget.RecyclerView
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.leo.githubstars.BR
 import com.leo.githubstars.R
 import com.leo.githubstars.application.MyGithubStarsApp

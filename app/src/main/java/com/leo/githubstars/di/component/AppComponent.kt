@@ -35,9 +35,14 @@ interface AppComponent : AndroidInjector<MyGithubStarsApp> {       //Application
         // Component에 추가로 전달할 객체. Builder로 리턴 해야 한다.
         @BindsInstance
         fun application(application: Application): AppComponent.Builder
-
         fun build(): AppComponent
     }
 
     override fun inject(instance: MyGithubStarsApp)
+
+//    /**
+//     * ViewModels
+//     */
+//    fun inject(mainViewModel: MainViewModel)
+//    fun inject(splashViewModel: SplashViewModel)
 }

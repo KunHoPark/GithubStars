@@ -1,7 +1,7 @@
 package com.leo.githubstars.di.module;
 
 import android.app.Application
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import com.leo.githubstars.data.local.BookmarkRoomDatabase
 import dagger.Module
 import dagger.Provides

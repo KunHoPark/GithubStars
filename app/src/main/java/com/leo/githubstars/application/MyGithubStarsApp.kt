@@ -6,13 +6,12 @@ import android.content.res.Resources
 import com.facebook.stetho.Stetho
 import com.leo.githubstars.di.component.AppComponent
 import com.leo.githubstars.di.component.DaggerAppComponent
-import dagger.android.support.DaggerApplication
 import timber.log.Timber
 
 /**
  * DaggerApplication를 상속받고, AppComponent에서 정의한 Builder를 활용하여 Component와 연결 한다.
  */
-class MyGithubStarsApp : DaggerApplication() {
+class MyGithubStarsApp : MultidexDaggerApplication() {
     companion object {
         val appComponent: AppComponent by lazy { DaggerAppComponent.builder()
                 .application(MyGithubStarsApp.instance!!)

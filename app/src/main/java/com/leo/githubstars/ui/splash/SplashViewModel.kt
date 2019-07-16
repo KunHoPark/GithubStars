@@ -1,12 +1,12 @@
 package com.leo.githubstars.ui.splash
 
 
-import android.arch.lifecycle.MutableLiveData
-import ccom.leo.githubstars.ui.base.BaseViewModel
+import androidx.lifecycle.MutableLiveData
 import com.leo.githubstars.R
 import com.leo.githubstars.application.MyGithubStarsApp.Companion.applicationContext
 import com.leo.githubstars.application.MyGithubStarsApp.Companion.resources
 import com.leo.githubstars.data.repository.AuthRepository
+import com.leo.githubstars.ui.base.BaseViewModel
 import com.leo.githubstars.util.LeoSharedPreferences
 import com.leo.githubstars.util.SupportOptional
 import com.leo.githubstars.util.optionalOf

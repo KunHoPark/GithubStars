@@ -1,17 +1,17 @@
 package com.leo.githubstars.ui.splash
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.net.Uri
 import android.os.Bundle
-import android.support.customtabs.CustomTabsIntent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ccom.leo.githubstars.ui.base.BaseFragment
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.leo.githubstars.application.Constants
 import com.leo.githubstars.databinding.SplashFragmentBinding
 import com.leo.githubstars.di.scope.ActivityScoped
+import com.leo.githubstars.ui.base.BaseFragment
 import com.leo.githubstars.util.ActivityUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject

@@ -1,8 +1,8 @@
 package com.leo.githubstars.adapter
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.leo.githubstars.adapter.viewholder.GithubBindingViewHolder
 import com.leo.githubstars.callback.OnItemClickListener
 import com.leo.githubstars.data.local.UserData

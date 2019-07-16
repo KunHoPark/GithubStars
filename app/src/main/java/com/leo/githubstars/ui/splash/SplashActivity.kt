@@ -2,7 +2,7 @@ package com.leo.githubstars.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
-import ccom.leo.githubstars.ui.base.BaseActivity
+import com.leo.githubstars.ui.base.BaseActivity
 import com.leo.githubstars.R
 import dagger.Lazy
 import javax.inject.Inject

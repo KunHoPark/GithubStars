@@ -1,9 +1,9 @@
-package ccom.leo.githubstars.ui.base
+package com.leo.githubstars.ui.base
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.leo.githubstars.extension.plusAssign
 import com.leo.githubstars.util.AutoClearedDisposable
 import com.leo.githubstars.util.LeoLog
@@ -17,7 +17,7 @@ open abstract class BaseFragment: DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        disposables = AutoClearedDisposable(activity as AppCompatActivity)
+        disposables = AutoClearedDisposable(lifecycleOwner = activity as AppCompatActivity)
         viewDisposables = AutoClearedDisposable(lifecycleOwner = activity as AppCompatActivity, alwaysClearOnStop = false)
         lifecycle += disposables
         lifecycle += viewDisposables

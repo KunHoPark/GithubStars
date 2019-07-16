@@ -1,7 +1,7 @@
 package com.leo.githubstars.extension
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
+import androidx.lifecycle.Lifecycle
+import com.leo.githubstars.util.AutoClearedDisposable
 
-operator fun Lifecycle.plusAssign(observer: LifecycleObserver)
+operator fun Lifecycle.plusAssign(observer: AutoClearedDisposable)
         = this.addObserver(observer)

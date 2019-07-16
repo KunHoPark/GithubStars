@@ -2,7 +2,7 @@ package com.leo.githubstars.ui.main
 
 import android.content.res.Configuration
 import android.os.Bundle
-import ccom.leo.githubstars.ui.base.BaseActivity
+import com.leo.githubstars.ui.base.BaseActivity
 import com.leo.githubstars.R
 import com.leo.githubstars.util.LeoLog
 import dagger.Lazy

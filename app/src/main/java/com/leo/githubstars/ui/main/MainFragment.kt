@@ -1,15 +1,15 @@
 package com.leo.githubstars.ui.main
 
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.design.widget.TabLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ccom.leo.githubstars.ui.base.BaseFragment
+import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.tabs.TabLayout
 import com.leo.githubstars.adapter.GithubTabPagerAdapter
 import com.leo.githubstars.databinding.MainFragmentBinding
 import com.leo.githubstars.di.scope.ActivityScoped
+import com.leo.githubstars.ui.base.BaseFragment
 import com.leo.githubstars.ui.main.MainFragment.Variable.TAB_FRAGMENT_ALL
 import com.leo.githubstars.ui.main.MainFragment.Variable.TAB_ITEMS
 import com.leo.githubstars.util.LeoLog

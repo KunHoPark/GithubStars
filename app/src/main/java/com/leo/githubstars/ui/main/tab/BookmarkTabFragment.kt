@@ -1,14 +1,14 @@
 package com.leo.githubstars.ui.main.tab
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ccom.leo.githubstars.ui.base.BaseTabFragment
 import com.jakewharton.rxbinding2.widget.RxTextView
 import com.leo.githubstars.data.local.UserData
@@ -52,8 +52,7 @@ class BookmarkTabFragment @Inject constructor() : BaseTabFragment() {
         with(viewDataBinding) {
 
             recyclerViewBookmark?.apply {
-                val gridLayoutManager = GridLayoutManager(activity, 1)
-                gridLayoutManager.orientation = LinearLayoutManager.VERTICAL
+                val gridLayoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
                 setHasFixedSize(true)
                 this.adapter = githubAdapter
                 layoutManager = gridLayoutManager

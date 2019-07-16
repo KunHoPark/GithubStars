@@ -1,6 +1,6 @@
 package com.leo.githubstars.data.repository
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import com.leo.githubstars.application.MyGithubStarsApp
 import com.leo.githubstars.data.local.SearchData
 import com.leo.githubstars.data.local.UserDao

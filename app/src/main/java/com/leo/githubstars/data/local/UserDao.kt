@@ -1,8 +1,8 @@
 package com.leo.githubstars.data.local
 
-import android.arch.lifecycle.LiveData
-import android.arch.persistence.db.SupportSQLiteQuery
-import android.arch.persistence.room.*
+import androidx.lifecycle.LiveData
+import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 import io.reactivex.Flowable
 
 

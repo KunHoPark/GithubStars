@@ -3,8 +3,8 @@ package com.leo.githubstars.util
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.support.v4.content.ContextCompat
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import com.leo.githubstars.R
 import com.leo.githubstars.application.MyGithubStarsApp
 import com.squareup.picasso.Callback

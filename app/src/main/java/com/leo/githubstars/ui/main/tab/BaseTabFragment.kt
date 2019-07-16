@@ -6,6 +6,7 @@ import android.view.inputmethod.InputMethodManager
 import com.leo.githubstars.adapter.GithubAdapter
 import com.leo.githubstars.callback.OnItemClickListener
 import com.leo.githubstars.data.local.UserData
+import com.leo.githubstars.ui.base.BaseFragment
 import com.leo.githubstars.ui.main.MainViewModel
 
 open abstract class BaseTabFragment: BaseFragment() {

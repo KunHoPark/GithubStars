@@ -1,9 +1,9 @@
 package ccom.leo.githubstars.adapter
 
-import android.databinding.BindingAdapter
-import android.databinding.ObservableArrayList
-import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
+import androidx.databinding.BindingAdapter
+import androidx.databinding.ObservableArrayList
+import androidx.recyclerview.widget.RecyclerView
 import com.leo.githubstars.adapter.GithubAdapter
 import com.leo.githubstars.application.MyGithubStarsApp
 import com.leo.githubstars.data.local.UserData
