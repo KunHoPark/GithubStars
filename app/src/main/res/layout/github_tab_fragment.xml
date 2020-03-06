@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="mainViewModel"
+            name="viewModel"
             type="com.leo.githubstars.ui.main.MainViewModel" />
 
     </data>
@@ -20,7 +20,7 @@
         <EditText
             android:id="@+id/svGithubInput"
             style="@style/T1_BM_T1_WR_01"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="35dp"
             android:imeOptions="actionSearch"
             android:inputType="text"
@@ -31,14 +31,17 @@
             android:focusedByDefault="true"
             android:hint="Search"
             android:paddingLeft="35dp"
-            app:closeIcon="@drawable/ic_ac_search_delete_nor"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:bind_editText="@{viewModel.onGithubEditText}"
             app:searchIcon="@drawable/ic_search_nor"
+            app:closeIcon="@drawable/ic_ac_search_delete_nor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            app:layout_constraintLeft_toLeftOf="@+id/svGithubInput"
+            app:layout_constraintStart_toStartOf="@+id/svGithubInput"
             app:layout_constraintTop_toTopOf="@+id/svGithubInput"
             app:layout_constraintBottom_toBottomOf="@+id/svGithubInput"
             android:src="@drawable/ic_search_nor"/>
@@ -50,42 +53,23 @@
             android:orientation="vertical"
             android:layout_marginTop="10dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:onItemListener = "@{viewModel.onItemClickListener}"
+            app:list_userData = "@{viewModel.githubUserData}"
+            app:list_searchWord = "@{viewModel.githubSearchWord}"
+            app:list_reloadGithub = "@{viewModel.isReloadGithubList}"
             app:layout_constraintTop_toBottomOf="@+id/svGithubInput"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:githubItems="@{mainViewModel.searchUserData}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             />
-
-        <!--<com.github.windsekirun.koreanindexer.KoreanIndexerRecyclerView-->
-            <!--android:id="@+id/recyclerView"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:clipChildren="false"-->
-            <!--android:dividerHeight="0px"-->
-            <!--android:divider="@android:color/transparent"-->
-            <!--app:indexerBackground="#ffffff"-->
-            <!--app:indexerRadius="60"-->
-            <!--app:indexerTextColor="#000000"-->
-            <!--app:indexerWidth="20"-->
-            <!--app:sectionBackground="#ffffff"-->
-            <!--app:sectionDelay="1000"-->
-            <!--app:sectionTextColor="#000000"-->
-            <!--app:useSection="true"-->
-            <!--app:layout_constraintTop_toTopOf="parent"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--app:layout_constraintLeft_toLeftOf="parent"-->
-            <!--app:layout_constraintRight_toRightOf="parent"-->
-            <!--app:githubItems="@{mainViewModel.userData}"-->
-            <!--/>-->
 
         <ProgressBar
             android:id="@+id/dataLoading"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:visibility="gone"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 

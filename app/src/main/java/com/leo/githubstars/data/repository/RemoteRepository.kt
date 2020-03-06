@@ -6,13 +6,17 @@ import com.leo.githubstars.data.local.SearchData
 import com.leo.githubstars.data.local.UserDao
 import com.leo.githubstars.data.local.UserData
 import com.leo.githubstars.data.remote.api.RemoteApi
-import com.leo.githubstars.util.NetworkUtils
+import com.leo.githubstars.util.NetworkUtil
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
+import org.intellij.lang.annotations.Flow
 import java.io.IOException
 import java.util.*
 
-
+/**
+ * Github 서버 & DB의 Repository.
+ * @author LeoPark
+ */
 class RemoteRepository(private val remoteApi: RemoteApi, private val userDao: UserDao) {
 
     /**
@@ -36,13 +40,9 @@ class RemoteRepository(private val remoteApi: RemoteApi, private val userDao: Us
     }
 
     /**
-     * Bookmark db에서 문자열 검색.
+     * 검색어를 통해 DB로 부터 검색데이타를 가져 온다.
      */
-//    fun loadSearchDataFromDb(keyword: String): LiveData<List<UserData>> {
-//        val searchQuery = SimpleSQLiteQuery("SELECT * FROM bookmark_user_table WHERE login LIKE '%$searchValue%' ORDER BY LOWER(login) ASC")
-//        return userDao.searchLiveUserDataRaw(searchQuery)
-//    }
-    fun loadSearchDataFromDb(keyword: String): LiveData<List<UserData>> {
+    fun loadSearchDataFromDb(keyword: String): Flowable<List<UserData>> {
         return userDao.searchLiveUserDataRaw("%$keyword%")
     }
 
@@ -73,7 +73,7 @@ class RemoteRepository(private val remoteApi: RemoteApi, private val userDao: Us
      * 네트워크 연결 상태 확인. 만약 미 연결되어 있으면 Exception 처리 한다.
      */
     private fun isNetworkAvailAble(): Boolean {
-        if (NetworkUtils.isNetworkAvailable(MyGithubStarsApp.applicationContext())) {
+        if (NetworkUtil.isNetwork()) {
             return true
         }
 

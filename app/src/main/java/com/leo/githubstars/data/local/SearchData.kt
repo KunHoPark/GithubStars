@@ -4,10 +4,9 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 /**
-* UserData
-* @author KunHo Park
-* @since 2018. 08. 3. PM 7:41
-**/
+ * 서버를 통한 검색 결과 데이타형식
+ * @author LeoPark
+ */
 data class SearchData(
 
         @SerializedName("total_count")

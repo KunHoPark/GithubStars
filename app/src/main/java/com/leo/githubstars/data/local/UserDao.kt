@@ -5,7 +5,10 @@ import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery
 import io.reactivex.Flowable
 
-
+/**
+ * DB 쿼리
+ * @author LeoPark
+ */
 @Dao
 interface UserDao {
 
@@ -34,7 +37,7 @@ interface UserDao {
     fun searchLiveUserDataRaw(query: SupportSQLiteQuery): LiveData<List<UserData>>
 
     @Query("SELECT * FROM bookmark_user_table WHERE login LIKE :keyword ORDER BY LOWER(login) ASC")
-    fun searchLiveUserDataRaw(keyword: String) : LiveData<List<UserData>>
+    fun searchLiveUserDataRaw(keyword: String) : Flowable<List<UserData>>
 
     @Insert
     fun insert(userData: UserData)

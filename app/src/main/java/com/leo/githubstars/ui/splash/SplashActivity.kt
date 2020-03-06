@@ -7,6 +7,12 @@ import com.leo.githubstars.R
 import dagger.Lazy
 import javax.inject.Inject
 
+/**
+ * Splash화면 Activity
+ * Splash화면에 attached된 Fragment들을 생성한다.
+ * Github의 auth token 값을 가져온다.
+ * @author LeoPark
+ **/
 class SplashActivity : BaseActivity() {
 
     @Inject
@@ -25,12 +31,9 @@ class SplashActivity : BaseActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
-        val code = intent.data?.getQueryParameter("code")
-                ?: throw IllegalStateException("No code exists")
 
-        code?.let {
-            SplashFragment.onNewIntent.onNext(it)
-        }
+
+        splashFragmentProvider.get().onNewIntent(intent)
 
     }
 

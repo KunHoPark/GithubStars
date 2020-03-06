@@ -4,6 +4,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
+/**
+ * 리스트의 더보기를 처리한다.
+ * 1번 째 인자 값(고차함수)를 통해 더보기시 실행할 함수를 호출한다.
+ * @author LeoPark
+ **/
 class InfiniteScrollListener(
     val func: () -> Unit,
     val layoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
@@ -24,7 +29,7 @@ class InfiniteScrollListener(
       firstVisibleItem = layoutManager.findFirstVisibleItemPosition()
 
       if (loading) {
-        if (totalItemCount > previousTotal) {
+        if (totalItemCount >= previousTotal) {
           loading = false
           previousTotal = totalItemCount
         }

@@ -8,7 +8,10 @@ import io.reactivex.Flowable
 import io.reactivex.Observable
 import retrofit2.http.*
 
-
+/**
+ * Github APIs
+ * @author LeoPark
+ */
 interface RemoteApi {
 
     @FormUrlEncoded

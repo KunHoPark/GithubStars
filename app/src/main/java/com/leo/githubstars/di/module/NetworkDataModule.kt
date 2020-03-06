@@ -1,9 +1,10 @@
 package com.leo.githubstars.di.module;
 
 import com.leo.githubstars.R
-import com.leo.githubstars.application.Constants
 import com.leo.githubstars.application.MyGithubStarsApp
 import com.leo.githubstars.data.remote.api.AuthInterceptor
+import com.leo.githubstars.extension.toResString
+import com.leo.githubstars.util.Constants
 import com.leo.githubstars.util.LeoSharedPreferences
 import com.leo.githubstars.util.RetrofitLogger
 import dagger.Module
@@ -21,8 +22,7 @@ import javax.inject.Singleton
 /**
  * NetworkDataModule
  * AppComponent에 연결 된다.
- * @author KunHoPark
- * @since 2018. 7. 30. PM 2:07
+ * @author LeoPark
  **/
 @Module
 class NetworkDataModule {
@@ -90,7 +90,7 @@ class NetworkDataModule {
     @Provides
     @Singleton
     fun provideAuthInterceptor(): AuthInterceptor {
-        val provider = LeoSharedPreferences(MyGithubStarsApp.applicationContext()).getString(MyGithubStarsApp.resources().getString(R.string.pref_action_key_auth_token) )
+        val provider = LeoSharedPreferences(MyGithubStarsApp.context).getString(R.string.pref_action_key_auth_token.toResString())
         val token =  provider ?: ""
         return AuthInterceptor(token)
     }

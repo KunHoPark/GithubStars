@@ -6,8 +6,9 @@
     <data>
 
         <variable
-            name="mainViewModel"
+            name="viewModel"
             type="com.leo.githubstars.ui.main.MainViewModel" />
+
 
     </data>
 
@@ -19,21 +20,24 @@
         <EditText
             android:id="@+id/svBookmarkInput"
             style="@style/T1_BM_T1_WR_01"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="35dp"
             android:imeOptions="actionSearch"
             android:inputType="text"
-            android:layout_marginLeft="19dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="#aeaeae"
             android:focusable="true"
             android:focusedByDefault="true"
             android:hint="Search"
             android:paddingLeft="35dp"
+            app:bind_editText="@{viewModel.onBookmarkEditText}"
             app:closeIcon="@drawable/ic_ac_search_delete_nor"
-            app:layout_constraintLeft_toLeftOf="parent"
             app:searchIcon="@drawable/ic_search_nor"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewBookmark"
@@ -42,10 +46,13 @@
             android:layout_marginTop="10dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:onItemListener = "@{viewModel.onItemClickListener}"
+            app:list_userData = "@{viewModel.bookmarkUserData}"
+            app:list_searchWord = "@{viewModel.bookmarkSearchWord}"
             app:layout_constraintTop_toBottomOf="@+id/svBookmarkInput"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             />
 
         <ProgressBar
@@ -53,8 +60,8 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:visibility="gone"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 

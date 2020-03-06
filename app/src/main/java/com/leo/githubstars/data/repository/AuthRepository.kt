@@ -5,7 +5,10 @@ import com.leo.githubstars.data.remote.model.GithubAccessToken
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 
-
+/**
+ * Github Token 정보를 전달 하기 위한 Repository.
+ * @author LeoPark
+ */
 class AuthRepository(private val unauthRestAdapter: RemoteApi) {
 
     /**

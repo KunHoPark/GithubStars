@@ -23,9 +23,10 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ContentProvider;
 
+import androidx.multidex.MultiDexApplication;
+
 import javax.inject.Inject;
 
-import androidx.multidex.MultiDexApplication;
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
 import dagger.android.DispatchingAndroidInjector;
@@ -37,11 +38,10 @@ import dagger.android.HasServiceInjector;
 import dagger.internal.Beta;
 
 /**
-* MultidexDaggerApplication
-* Customizing, DaggerApplication.java in Dagger2 library, For Using Dagger2 with MultiDex
-* @author JungWoongLee
-* @since 2018. 2. 21. AM 9:49
-**/
+ * MultidexDaggerApplication
+ * Customizing, DaggerApplication.java in Dagger2 library, For Using Dagger2 with MultiDex
+ * @author LeoPark
+ */
 @Beta
 public abstract class MultidexDaggerApplication extends MultiDexApplication
         implements HasActivityInjector,

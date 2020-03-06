@@ -16,20 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.splash.SplashActivity"
-            android:launchMode="singleTask">
-            <!-- 로그인 버튼 > github site에서 로그인 > onNewIntent를 통해 code을 가져 오기 위해 singleTask로 처리 한다. -->
-
+            android:launchMode="singleTask"> <!-- 로그인 버튼 > github site에서 로그인 > onNewIntent를 통해 code을 가져 오기 위해 singleTask로 처리 한다. -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="authorize"
                     android:scheme="mygithubstarsapp" />
@@ -38,8 +33,7 @@
 
         <activity android:name=".ui.main.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
 
     </application>
 

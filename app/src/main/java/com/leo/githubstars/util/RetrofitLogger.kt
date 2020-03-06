@@ -7,12 +7,16 @@ import com.google.gson.JsonParser
 import com.google.gson.JsonSyntaxException
 import okhttp3.logging.HttpLoggingInterceptor
 
+/**
+ * Retrofit의 header/body의 로그를 출력 해준다.
+ * @author LeoPark
+ **/
 class RetrofitLogger(private val prettyPrinting : Boolean) : HttpLoggingInterceptor.Logger{
 
     private val tag = "OkHttp"
     private val logChunkSize = 3200
 
-    override fun log(message: String?) {
+    override fun log(message: String) {
         if(message.isNullOrEmpty()) return
 
         if(!prettyPrinting) {
@@ -31,6 +35,8 @@ class RetrofitLogger(private val prettyPrinting : Boolean) : HttpLoggingIntercep
             isJson = false
         } catch (e: Exception) {
             //e.printStackTrace()
+            isJson = false
+        } catch (e: Throwable) {
             isJson = false
         }
 

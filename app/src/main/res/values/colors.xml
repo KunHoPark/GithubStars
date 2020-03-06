@@ -4,7 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+    <color name="black_131313">#131313</color>
     <color name="red">#ff0000</color>
     <color name="main_gray_text">#7a7a7a</color>
     <color name="line">#212121</color>
@@ -16,5 +18,5 @@
     <color name="subgray">#dadada</color>
     <color name="random_1">#f4eed7</color>
     <color name="random_2">#e4e5f6</color>
-    <color name="search_highlighted_color">#ffce00</color>
+    <color name="keycolor">#ffce00</color>
 </resources>

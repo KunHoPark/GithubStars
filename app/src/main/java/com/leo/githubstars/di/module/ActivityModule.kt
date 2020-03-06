@@ -11,8 +11,7 @@ import dagger.android.ContributesAndroidInjector
 /**
  * RepositoryModule
  * AppComponent에 연결 된다.
- * @author KunHoPark
- * @since 2018. 7. 30. PM 2:07
+ * @author LeoPark
  **/
 @Module
 abstract class ActivityModule {

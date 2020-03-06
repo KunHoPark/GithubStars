@@ -4,6 +4,10 @@ import android.content.Context
 import android.content.Intent
 import com.leo.githubstars.ui.main.MainActivity
 
+/**
+ * Activity간 화면 이동을 위해 사용 한다.
+ * @author LeoPark
+ **/
 object ActivityUtil {
 
     /**

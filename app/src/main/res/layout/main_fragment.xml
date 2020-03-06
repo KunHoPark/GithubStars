@@ -6,8 +6,16 @@
     <data>
 
         <variable
-            name="mainViewModel"
+            name="viewModel"
             type="com.leo.githubstars.ui.main.MainViewModel" />
+
+        <variable
+            name="activity"
+            type="com.leo.githubstars.ui.main.MainActivity" />
+
+        <variable
+            name="childFragmentManager"
+            type="androidx.fragment.app.FragmentManager" />
 
     </data>
 
@@ -19,39 +27,32 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayoutAccounts"
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:layout_height="53dp"
+            app:addOnTabSelectedListener="@{viewModel.onTabSelectedListener}"
+            app:mainActivity="@{activity}"
+            app:mainViewPager="@{viewPager}"
+            app:childFragmentManager="@{childFragmentManager}"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
             app:tabIndicatorHeight="0dp"
-            app:tabSelectedTextColor="@color/red">
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tabUpcomingShow"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                style="@style/C1_GR_01"/>
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tabCurrentShow"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                style="@style/C1_GR_01"/>
-
-        </com.google.android.material.tabs.TabLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPagerAccounts"
+            android:id="@+id/viewPager"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:fadingEdgeLength="0dp"
             android:overScrollMode="never"
             android:paddingLeft="9dp"
             android:paddingRight="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/tabLayoutAccounts"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tabLayoutAccounts" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

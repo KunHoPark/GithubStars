@@ -3,6 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
+
+        <variable
+            name="searchword"
+            type="String" />
         <variable
             name="userData"
             type="com.leo.githubstars.data.local.UserData"/>
@@ -21,16 +25,20 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:scaleType="centerCrop"
+            app:loadImage="@{userData.avatarUrl}"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             />
-        <!--app:loadImage="@{userData.avatarUrl}"-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutContents"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            app:drawHighLight_title="@{tvTitle}"
+            app:drawHighLight_desc="@{tvDesc}"
+            app:searchWord="@{searchword}"
+            app:userData="@{userData}"
             app:layout_constraintRight_toLeftOf="@+id/ivBookmark"
             app:layout_constraintLeft_toRightOf="@+id/ivThumbnail"
             app:layout_constraintTop_toTopOf="@+id/ivThumbnail"
@@ -47,7 +55,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 />
-            <!--android:text="@{userData.login}"-->
+<!--            android:text="@{userData.login}"-->
 
             <TextView
                 android:id="@+id/tvDesc"
@@ -58,10 +66,10 @@
                 android:ellipsize="end"
                 style="@style/C1_GR_01"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 android:textColor="@color/main_gray_text"
                 />
-            <!--android:text="@{userData.url}"-->
+<!--            android:text="@{userData.url}"-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -71,6 +79,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="5dp"
+            app:isBookmark="@{userData.isBookmark}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"

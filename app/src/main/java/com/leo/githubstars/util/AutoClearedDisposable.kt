@@ -7,6 +7,11 @@ import androidx.lifecycle.OnLifecycleEvent
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
+/**
+ * AAC의 Lifecycle 정의
+ * 각 화면에서 사용한 disposables(LiveData, Observer)를 등록 해지를 처리하다.
+ * @author LeoPark
+ **/
 class AutoClearedDisposable(
         private val lifecycleOwner: AppCompatActivity,
         private val alwaysClearOnStop: Boolean = true,

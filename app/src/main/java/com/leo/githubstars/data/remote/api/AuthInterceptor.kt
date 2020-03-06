@@ -4,6 +4,10 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
 
+/**
+ * Github의 Token 정보를 Retrofit Module로 전달한다.
+ * @author LeoPark
+ */
 class AuthInterceptor(private val token: String) : Interceptor {
 
     @Throws(IOException::class)

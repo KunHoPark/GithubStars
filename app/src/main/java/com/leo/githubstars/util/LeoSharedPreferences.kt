@@ -5,8 +5,7 @@ import android.content.SharedPreferences
 
 /**
 * LeoSharedPreferences
-* @author KunHoPark
-* @since 2018. 8. 3. PM 22:05
+* @author LeoPark
 **/
 class LeoSharedPreferences(context: Context) {
 

@@ -6,13 +6,15 @@ import android.widget.Toast
 import com.leo.githubstars.R
 import com.leo.githubstars.extension.plusAssign
 import com.leo.githubstars.util.AutoClearedDisposable
-import com.leo.githubstars.util.NetworkUtils
 import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
-
+/**
+ * Activity의 Base class.
+ * @author LeoPark
+ **/
 open abstract class BaseActivity: DaggerAppCompatActivity() {
 
     internal var viewDisposables =  AutoClearedDisposable(lifecycleOwner = this, alwaysClearOnStop = false)
@@ -43,11 +45,7 @@ open abstract class BaseActivity: DaggerAppCompatActivity() {
                 })
     }
 
-    fun isNetworkAvailAble() : Boolean {
-        return NetworkUtils.isNetworkAvailable(this)
-    }
-
-    fun showToast(title: String) {
+    private fun showToast(title: String) {
         Toast.makeText(this, title, Toast.LENGTH_SHORT).show()
     }
 

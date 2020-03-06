@@ -11,6 +11,10 @@ import dagger.android.support.DaggerFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 
+/**
+ * Fragment의 Base class.
+ * @author LeoPark
+ **/
 open abstract class BaseFragment: DaggerFragment() {
     lateinit var disposables: AutoClearedDisposable
     lateinit var viewDisposables : AutoClearedDisposable
@@ -23,33 +27,8 @@ open abstract class BaseFragment: DaggerFragment() {
         lifecycle += viewDisposables
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onStart() {
-        super.onStart()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        initClickListener()
-    }
-
     abstract fun subscribe()
 
-    abstract fun initClickListener()
-
-    protected fun subScribeMessage(message: PublishSubject<String>) {
-        message
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    LeoLog.e("BaseFragment", it)
-                }
-                .apply {
-                    disposables.add(this)
-                }
-    }
 
     protected fun showToast(message: String) {
         Toast.makeText(activity!!.applicationContext, message, Toast.LENGTH_SHORT).show()

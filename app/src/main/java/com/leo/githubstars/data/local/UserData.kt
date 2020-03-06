@@ -7,10 +7,9 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 /**
-* UserData
-* @author KunHo Park
-* @since 2018. 08. 3. PM 7:41
-**/
+ * 북마크된 데이타를 저장하기 위한 형식
+ * @author LeoPark
+ */
 @Entity(tableName = "bookmark_user_table")
 data class UserData(
 

@@ -7,6 +7,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 
+/**
+ * SplashActivity의 subComponet.
+ * @author LeoPark
+ **/
 @Module
 abstract class SplashModule {
 
