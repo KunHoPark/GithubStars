@@ -16,6 +16,7 @@ import com.leo.githubstars.ui.base.BaseViewModel
 import com.leo.githubstars.util.Constants
 import com.leo.githubstars.util.InfiniteScrollListener
 import com.leo.githubstars.util.LeoLog
+import gov.laos.laototo.event.SingleLiveEvent
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -41,6 +42,7 @@ class MainViewModel
     val githubSearchWord = ObservableField<String>("")
     val bookmarkSearchWord = ObservableField<String>("")
     val isReloadGithubList = ObservableField<Boolean>(false)        // GithubTab list 갱신, Bookmark 변경
+    val startDetailActivityLiveData = SingleLiveEvent<Unit>()
 
     private val bookmarkUserHash = HashMap<String, UserData>()
     private var totalCount = 0
@@ -248,6 +250,8 @@ class MainViewModel
         override fun onItemClick(item: UserData, view: View, position: Int) {
             LeoLog.i(tag, "onItemClick = ${item.url}, isBookmarked=${item.isBookmark}")
             view.hideKeyboard()
+
+            startDetailActivityLiveData.call()
 
             // Bookmark db에 저장 또는 삭제 처리 한다. bookmark 여부멩 따라 처리 된다.
             when (item.isBookmark) {

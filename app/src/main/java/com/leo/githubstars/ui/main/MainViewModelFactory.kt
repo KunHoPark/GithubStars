@@ -6,9 +6,15 @@ import com.leo.githubstars.data.repository.RemoteRepository
 
 class MainViewModelFactory(private val remoteRepository: RemoteRepository): ViewModelProvider.Factory {
 
+    var viewModel: ViewModel?=null
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST")
-        return MainViewModel(remoteRepository) as T
+        return viewModel?.let {
+            viewModel as T
+        }?: MainViewModel(remoteRepository).let {
+            viewModel = it
+            viewModel as T
+        }
     }
 
 }

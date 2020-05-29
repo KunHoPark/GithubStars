@@ -1,6 +1,8 @@
 package com.leo.githubstars.di.module;
 
 import com.leo.githubstars.di.scope.ActivityScoped
+import com.leo.githubstars.ui.detail.DetailActivity
+import com.leo.githubstars.ui.detail.DetailModule
 import com.leo.githubstars.ui.main.MainActivity
 import com.leo.githubstars.ui.main.MainModule
 import com.leo.githubstars.ui.splash.SplashActivity
@@ -24,5 +26,9 @@ abstract class ActivityModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = [(SplashModule::class)])
     abstract fun splashActivity(): SplashActivity
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [(DetailModule::class)])
+    abstract fun detailActivity(): DetailActivity
 
 }
