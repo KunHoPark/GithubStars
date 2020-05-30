@@ -3,6 +3,7 @@ package com.leo.githubstars.ui.splash
 import com.leo.githubstars.data.repository.AuthRepository
 import com.leo.githubstars.di.scope.ActivityScoped
 import com.leo.githubstars.di.scope.FragmentScoped
+import com.leo.githubstars.util.LeoSharedPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
@@ -22,8 +23,8 @@ abstract class SplashModule {
     companion object {
         @Provides
         @ActivityScoped
-        @JvmStatic fun provideViewModelFactory(authRepository: AuthRepository) : SplashViewModelFactory
-                = SplashViewModelFactory(authRepository)
+        @JvmStatic fun provideViewModelFactory(authRepository: AuthRepository, leoSharedPreferences: LeoSharedPreferences) : SplashViewModelFactory
+                = SplashViewModelFactory(authRepository, leoSharedPreferences)
     }
 
 }

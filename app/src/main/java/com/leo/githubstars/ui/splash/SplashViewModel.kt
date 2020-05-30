@@ -5,11 +5,8 @@ import android.net.Uri
 import android.view.View
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.databinding.ObservableField
-import androidx.lifecycle.MutableLiveData
 import com.leo.githubstars.R
-import com.leo.githubstars.application.MyGithubStarsApp
 import com.leo.githubstars.data.repository.AuthRepository
-import com.leo.githubstars.extension.toResString
 import com.leo.githubstars.ui.base.BaseViewModel
 import com.leo.githubstars.util.Constants
 import com.leo.githubstars.util.LeoSharedPreferences
@@ -20,7 +17,6 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.splash_fragment.*
 import javax.inject.Inject
 
 /**
@@ -28,7 +24,7 @@ import javax.inject.Inject
  * @author LeoPark
  **/
 class SplashViewModel
-@Inject constructor(private val authRepository: AuthRepository) : BaseViewModel() {
+@Inject constructor(private val authRepository: AuthRepository, private val leoSharedPreferences: LeoSharedPreferences) : BaseViewModel() {
     internal val tag = this.javaClass.simpleName
 
     val isLoading = ObservableField<Boolean>(false)
@@ -55,24 +51,30 @@ class SplashViewModel
      * token 정보를 local에 가지고 있는지 확인. 없으면 무시, 있으면 main 화면으로 넘어 가기 위해 subject를 호출 한다.
      */
     fun loadAccessToken(): Disposable
-            = Single.fromCallable { optionalOf(LeoSharedPreferences(MyGithubStarsApp.context).getString(Constants.PREF_ACTION_KEY_AUTH_TOKEN)) }
+            = Single.fromCallable { optionalOf(leoSharedPreferences.getString(Constants.PREF_ACTION_KEY_AUTH_TOKEN)) }
             .subscribeOn(Schedulers.io())
             .subscribe(Consumer<SupportOptional<String>> {
                 accessToken.onNext(it)
-            })
+            }).apply { viewDisposables.add(this) }
 
     /**
      * Token 정보를 가져 오는 api. Github 로긘 후 code 값을 받아 오면 처리 된다. code 값은 onNewIntent를 통해 받아 온다.
      */
-    fun requestAccessToken(clientId: String, clientSecret: String, code: String): Disposable
-            = authRepository.getAccessToken(clientId, clientSecret, code)
+    fun requestAccessToken(clientId: String, clientSecret: String, code: String): Disposable =
+        authRepository.getAccessToken(clientId, clientSecret, code)
             .map { it.accessToken }
             .doOnSubscribe { isLoading.set(true) }
             .doOnTerminate { isLoading.set(false) }
-            .subscribe({ token ->
-                LeoSharedPreferences(MyGithubStarsApp.context).setString(Constants.PREF_ACTION_KEY_AUTH_TOKEN, token)
-                accessToken.onNext(optionalOf(token))
-            }) {
-                message.onNext(it.message ?: "Unexpected error")
-            }
+            .subscribe(
+                { token ->
+                    leoSharedPreferences.setString(
+                        Constants.PREF_ACTION_KEY_AUTH_TOKEN,
+                        token
+                    )
+                    accessToken.onNext(optionalOf(token))
+                },
+                {
+                    message.onNext(it.message ?: "Unexpected error")
+                }
+            ).apply { viewDisposables.add(this) }
 }

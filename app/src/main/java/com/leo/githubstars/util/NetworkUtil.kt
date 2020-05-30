@@ -7,7 +7,7 @@ import com.leo.githubstars.application.MyGithubStarsApp
 
 object NetworkUtil {
 
-    fun isNetwork(): Boolean {
+    fun isNetworkAvailAble(): Boolean {
         val cm = MyGithubStarsApp.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
         return activeNetwork?.isConnected == true

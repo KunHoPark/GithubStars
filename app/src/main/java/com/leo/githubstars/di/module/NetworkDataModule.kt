@@ -1,9 +1,7 @@
 package com.leo.githubstars.di.module;
 
-import com.leo.githubstars.R
 import com.leo.githubstars.application.MyGithubStarsApp
 import com.leo.githubstars.data.remote.api.AuthInterceptor
-import com.leo.githubstars.extension.toResString
 import com.leo.githubstars.util.Constants
 import com.leo.githubstars.util.LeoSharedPreferences
 import com.leo.githubstars.util.RetrofitLogger

@@ -1,4 +1,4 @@
-package gov.laos.laototo.event
+package com.leo.githubstars.event
 
 import android.view.View
 import java.util.concurrent.atomic.AtomicBoolean

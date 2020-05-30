@@ -4,6 +4,7 @@ package com.leo.githubstars.di.component;
 import android.app.Application
 import com.leo.githubstars.application.MyGithubStarsApp
 import com.leo.githubstars.di.module.*
+import com.leo.githubstars.ui.splash.SplashViewModel
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -23,6 +24,7 @@ import javax.inject.Singleton
     (NetworkDataModule::class),
     (LocalDataModule::class),
     (RepositoryModule::class),
+    (UtilModule::class),
     (AndroidSupportInjectionModule::class)])
 
 /**

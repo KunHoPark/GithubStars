@@ -1,6 +1,7 @@
 package com.leo.githubstars.ui.base
 
 import androidx.lifecycle.ViewModel
+import com.leo.githubstars.util.AutoClearedDisposable
 import io.reactivex.subjects.PublishSubject
 
 /**
@@ -9,6 +10,7 @@ import io.reactivex.subjects.PublishSubject
  **/
 open abstract class BaseViewModel: ViewModel() {
 
+   lateinit var viewDisposables: AutoClearedDisposable
    val message: PublishSubject<String> = PublishSubject.create()
 
 }

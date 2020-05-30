@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package gov.laos.laototo.event
+package com.leo.githubstars.event
 
 import android.util.Log
 import androidx.annotation.MainThread

@@ -1,6 +1,5 @@
 package com.leo.githubstars.ui.detail
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,15 +27,13 @@ class DetailFragment @Inject constructor() : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         viewDataBinding = DetailFragmentBinding.inflate(inflater, container, false)
-
-
         return viewDataBinding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(DetailViewModel::class.java)
-
+        viewModel.viewDisposables = viewDisposables
         viewDataBinding.also {
             it.viewModel = viewModel
             it.lifecycleOwner = activity
@@ -48,8 +45,12 @@ class DetailFragment @Inject constructor() : BaseFragment() {
 
 
     private fun loadData() {
-        ((activity as DetailActivity).intent.getSerializableExtra(Constants.INTENT_ACTION_KEY_USERDATA) as UserData).let {
-            viewModel.loadData(it)
+        onActivityList?.let {
+            it.onIntent().getSerializableExtra(Constants.INTENT_ACTION_KEY_USERDATA )?.let { userData ->
+                if (userData is UserData) {
+                    viewModel.loadData(userData)
+                }
+            }?:let { activity!!.finish() }
         }
     }
 
@@ -60,8 +61,5 @@ class DetailFragment @Inject constructor() : BaseFragment() {
         with(viewModel) {
 
         }
-
     }
-
-
 }

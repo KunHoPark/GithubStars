@@ -8,6 +8,6 @@ import com.leo.githubstars.extension.toResString
  * @author LeoPark
  **/
 enum class MainTabItems(val value: String) {
-    GITHUB(R.string.common_tab_title_github.toResString()),
-    BOOKMARK(R.string.common_tab_title_bookmark.toResString()),
+    GITHUB(R.string.common_tab_title_github.toResString),
+    BOOKMARK(R.string.common_tab_title_bookmark.toResString),
 }

@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import com.leo.githubstars.R
+import com.leo.githubstars.event.OnActivityListener
 import com.leo.githubstars.extension.plusAssign
 import com.leo.githubstars.util.AutoClearedDisposable
 import dagger.android.support.DaggerAppCompatActivity
@@ -19,6 +20,7 @@ open abstract class BaseActivity: DaggerAppCompatActivity() {
 
     internal var viewDisposables =  AutoClearedDisposable(lifecycleOwner = this, alwaysClearOnStop = false)
     protected val backButtonClickSource = PublishSubject.create<Boolean>()!!
+    open val onActivityListener: OnActivityListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)

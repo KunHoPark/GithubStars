@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.leo.githubstars.ui.base.BaseActivity
 import com.leo.githubstars.R
+import com.leo.githubstars.event.OnActivityListener
 import dagger.Lazy
 import javax.inject.Inject
 
@@ -30,11 +31,6 @@ class SplashActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-
-
-
         splashFragmentProvider.get().onNewIntent(intent)
-
     }
-
 }

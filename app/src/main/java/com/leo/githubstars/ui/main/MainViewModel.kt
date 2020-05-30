@@ -17,7 +17,7 @@ import com.leo.githubstars.ui.base.BaseViewModel
 import com.leo.githubstars.util.Constants
 import com.leo.githubstars.util.InfiniteScrollListener
 import com.leo.githubstars.util.LeoLog
-import gov.laos.laototo.event.SingleLiveEvent
+import com.leo.githubstars.event.SingleLiveEvent
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -36,7 +36,6 @@ class MainViewModel
 @Inject constructor(private val remoteRepository: RemoteRepository) : BaseViewModel() {
     internal val tag = this.javaClass.simpleName
 
-    private var compositeDisposable = CompositeDisposable()
 
     val githubUserData = ObservableArrayList<UserData>()
     val bookmarkUserData = ObservableArrayList<UserData>()
@@ -77,7 +76,7 @@ class MainViewModel
                 }
             )
             .apply {
-                compositeDisposable.add(this)
+                viewDisposables.add(this)
             }
     }
 
@@ -118,7 +117,7 @@ class MainViewModel
                 onGithubSearchMoreData(it, false)
             }
             .apply {
-                compositeDisposable.add(this)
+                viewDisposables.add(this)
             }
     }
 
@@ -166,7 +165,7 @@ class MainViewModel
                  }
              )
              .apply {
-                 compositeDisposable.add(this)
+                 viewDisposables.add(this)
              }
     }
 
@@ -197,7 +196,7 @@ class MainViewModel
                 }
             )
             .apply {
-                compositeDisposable.add(this)
+                viewDisposables.add(this)
             }
     }
 
@@ -238,7 +237,7 @@ class MainViewModel
                     isReloadGithubList.set(true)
                 }
                 .apply {
-                    compositeDisposable.add(this)
+                    viewDisposables.add(this)
                 }
 
         }
@@ -267,7 +266,12 @@ class MainViewModel
                     }
                 }
                 else -> {
-                    startDetailActivityLiveData.value = item
+                    startDetailActivityLiveData.value =
+                    remoteRepository.getUserDataFromDbById(item)?.let {
+                        it
+                    }?:let {
+                        item
+                    }
                 }
             }
         }
@@ -292,12 +296,4 @@ class MainViewModel
      * Bookmark db 값이 변경 되면 호출된다.
      */
     val getUserData = remoteRepository.getUserDataFromDb()
-
-
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
-    }
-
-
 }

@@ -38,6 +38,7 @@ class SplashFragment @Inject constructor() : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(SplashViewModel::class.java)
 
+        viewModel.viewDisposables = viewDisposables
         viewDataBinding.also {
             it.viewModel = viewModel
             it.lifecycleOwner = activity

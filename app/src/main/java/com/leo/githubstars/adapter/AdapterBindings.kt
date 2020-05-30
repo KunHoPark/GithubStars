@@ -74,7 +74,7 @@ object AdapterBindings {
             var indexLogin: Int = login?.indexOf(keyword)
             while (indexLogin >= 0) {
                 sbLogin.setSpan(
-                    ForegroundColorSpan(R.color.keycolor.toResColor()), indexLogin,
+                    ForegroundColorSpan(R.color.keycolor.toResColor), indexLogin,
                     indexLogin + keyword!!.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
                 indexLogin = login?.indexOf(keyword, indexLogin + 1) ?: 0
             }
@@ -86,7 +86,7 @@ object AdapterBindings {
 
             while (indexName >= 0) {
                 sbName.setSpan(
-                    ForegroundColorSpan(R.color.keycolor.toResColor()), indexName,
+                    ForegroundColorSpan(R.color.keycolor.toResColor), indexName,
                     indexName + keyword.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
                 indexName = name?.indexOf(keyword, indexName + 1) ?: 0
             }

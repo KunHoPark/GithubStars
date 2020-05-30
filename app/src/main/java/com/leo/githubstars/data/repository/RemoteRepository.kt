@@ -24,7 +24,7 @@ class RemoteRepository(private val remoteApi: RemoteApi, private val userDao: Us
      */
     fun loadSearchDataFromGithub(searchValue: String, page: Int, perPage: Int=20): Flowable<SearchData> {
 
-        return if (isNetworkAvailAble()) {
+        return if (NetworkUtil.isNetworkAvailAble()) {
             val quereis = HashMap<String, String>()
             quereis["q"] = searchValue
             quereis["in"] = "Alogin"
@@ -42,13 +42,9 @@ class RemoteRepository(private val remoteApi: RemoteApi, private val userDao: Us
     /**
      * 검색어를 통해 DB로 부터 검색데이타를 가져 온다.
      */
-    fun loadSearchDataFromDb(keyword: String): Flowable<List<UserData>> {
-        return userDao.searchLiveUserDataRaw("%$keyword%")
-    }
+    fun loadSearchDataFromDb(keyword: String): Flowable<List<UserData>> = userDao.searchLiveUserDataRaw("%$keyword%")
 
-    fun getUserDetailFromGithub(userData: UserData): Flowable<UserData> {
-        return remoteApi.getUserDetail(userData.login)
-    }
+    fun getUserDetailFromGithub(userData: UserData): Flowable<UserData> = remoteApi.getUserDetail(userData.login)
 
     /**
      * Bookmark db에 유저 정보를 저장 한다.
@@ -62,23 +58,12 @@ class RemoteRepository(private val remoteApi: RemoteApi, private val userDao: Us
     /**
      * Bookmark db에서 삭제 한다.
      */
-    fun deleteUserDataFromDb(userData: UserData) {
-        userDao.delete(userData)
-    }
+    fun deleteUserDataFromDb(userData: UserData) = userDao.delete(userData)
 
     fun getUserDataFromDb(): LiveData<List<UserData>> = userDao.getLiveUserData()
 
+    fun getUserDataFromDbById(userData: UserData) = userDao.getUserDataById(userData.id.toInt())
 
-    /**
-     * 네트워크 연결 상태 확인. 만약 미 연결되어 있으면 Exception 처리 한다.
-     */
-    private fun isNetworkAvailAble(): Boolean {
-        if (NetworkUtil.isNetwork()) {
-            return true
-        }
-
-        return false
-    }
-
+    fun updateUserDataToDb(userData: UserData) = userDao.update(userData)
 
 }

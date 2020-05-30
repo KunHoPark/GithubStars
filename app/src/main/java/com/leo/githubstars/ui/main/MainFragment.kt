@@ -40,7 +40,7 @@ class MainFragment @Inject constructor() : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
-
+        viewModel.viewDisposables = viewDisposables
         viewDataBinding.also {
             it.viewModel = viewModel
             it.activity = (activity as MainActivity)

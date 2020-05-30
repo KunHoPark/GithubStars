@@ -1,16 +1,13 @@
 package com.leo.githubstars.ui.detail
 
 
-import android.view.View
 import androidx.databinding.ObservableField
 import com.leo.githubstars.data.local.UserData
-import com.leo.githubstars.data.repository.AuthRepository
 import com.leo.githubstars.data.repository.RemoteRepository
 import com.leo.githubstars.ui.base.BaseViewModel
 import com.leo.githubstars.util.LeoLog
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -21,7 +18,6 @@ import javax.inject.Inject
 class DetailViewModel
 @Inject constructor(private val remoteRepository: RemoteRepository) : BaseViewModel() {
     internal val tag = this.javaClass.simpleName
-    private var compositeDisposable = CompositeDisposable()
 
     val userData = ObservableField<UserData>()
 
@@ -32,6 +28,14 @@ class DetailViewModel
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                it.also { userData ->
+                    if (reqData.isBookmark) {
+                        userData.isBookmark = true
+                        remoteRepository.updateUserDataToDb(userData)
+                    }
+                }
+            }
             .subscribe(
                 {
                     userData.set(it)
@@ -40,13 +44,7 @@ class DetailViewModel
                     LeoLog.e(tag, it.localizedMessage)
 
                 }
-            ).apply { compositeDisposable.add(this) }
+            ).apply { viewDisposables.add(this) }
 
     }
-
-    fun onClickListener(view: View) {
-        when(view.id) {
-        }
-    }
-
 }

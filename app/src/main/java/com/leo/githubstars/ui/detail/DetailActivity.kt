@@ -3,6 +3,7 @@ package com.leo.githubstars.ui.detail
 import android.content.Intent
 import android.os.Bundle
 import com.leo.githubstars.R
+import com.leo.githubstars.event.OnActivityListener
 import com.leo.githubstars.ui.base.BaseActivity
 import dagger.Lazy
 import javax.inject.Inject
@@ -28,8 +29,15 @@ class DetailActivity : BaseActivity() {
         }
     }
 
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
+    override var onActivityListener = object: OnActivityListener {
+        override fun onIntent(): Intent {
+            return intent
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right)
     }
 
 }
