@@ -55,7 +55,6 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 />
-<!--            android:text="@{userData.login}"-->
 
             <TextView
                 android:id="@+id/tvDesc"
@@ -69,7 +68,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:textColor="@color/main_gray_text"
                 />
-<!--            android:text="@{userData.url}"-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

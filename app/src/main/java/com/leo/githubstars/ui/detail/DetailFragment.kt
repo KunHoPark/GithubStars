@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.leo.githubstars.data.local.UserData
 import com.leo.githubstars.databinding.DetailFragmentBinding
 import com.leo.githubstars.di.scope.ActivityScoped
 import com.leo.githubstars.ui.base.BaseFragment
@@ -47,6 +48,9 @@ class DetailFragment @Inject constructor() : BaseFragment() {
 
 
     private fun loadData() {
+        ((activity as DetailActivity).intent.getSerializableExtra(Constants.INTENT_ACTION_KEY_USERDATA) as UserData).let {
+            viewModel.loadData(it)
+        }
     }
 
     /**

@@ -55,7 +55,7 @@ class SplashViewModel
      * token 정보를 local에 가지고 있는지 확인. 없으면 무시, 있으면 main 화면으로 넘어 가기 위해 subject를 호출 한다.
      */
     fun loadAccessToken(): Disposable
-            = Single.fromCallable { optionalOf(LeoSharedPreferences(MyGithubStarsApp.context).getString(R.string.pref_action_key_auth_token.toResString())) }
+            = Single.fromCallable { optionalOf(LeoSharedPreferences(MyGithubStarsApp.context).getString(Constants.PREF_ACTION_KEY_AUTH_TOKEN)) }
             .subscribeOn(Schedulers.io())
             .subscribe(Consumer<SupportOptional<String>> {
                 accessToken.onNext(it)
@@ -70,7 +70,7 @@ class SplashViewModel
             .doOnSubscribe { isLoading.set(true) }
             .doOnTerminate { isLoading.set(false) }
             .subscribe({ token ->
-                LeoSharedPreferences(MyGithubStarsApp.context).setString(R.string.pref_action_key_auth_token.toResString(), token)
+                LeoSharedPreferences(MyGithubStarsApp.context).setString(Constants.PREF_ACTION_KEY_AUTH_TOKEN, token)
                 accessToken.onNext(optionalOf(token))
             }) {
                 message.onNext(it.message ?: "Unexpected error")

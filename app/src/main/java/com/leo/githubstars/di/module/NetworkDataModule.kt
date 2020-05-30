@@ -90,7 +90,7 @@ class NetworkDataModule {
     @Provides
     @Singleton
     fun provideAuthInterceptor(): AuthInterceptor {
-        val provider = LeoSharedPreferences(MyGithubStarsApp.context).getString(R.string.pref_action_key_auth_token.toResString())
+        val provider = LeoSharedPreferences(MyGithubStarsApp.context).getString(Constants.PREF_ACTION_KEY_AUTH_TOKEN)
         val token =  provider ?: ""
         return AuthInterceptor(token)
     }

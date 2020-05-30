@@ -26,6 +26,9 @@ class GithubBindingViewHolder(private var binding: ItemGithubViewHolderBinding, 
                 this.root.setOnClickListener {
                     listener.onItemClick(item, it, position)
                 }
+                ivBookmark.setOnClickListener {
+                    listener.onItemClick(item, it, position)
+                }
             }
         }
     }

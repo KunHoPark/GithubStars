@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+import javax.annotation.Nullable
 
 /**
  * 북마크된 데이타를 저장하기 위한 형식
@@ -14,24 +15,30 @@ import java.io.Serializable
 data class UserData(
 
         @PrimaryKey @ColumnInfo(name = "id")
-        var id:String,                            // id 로 다른 데이타를 호출 할 때의 키 값으로 사용 한다.
+        var id:String,
 
         @ColumnInfo(name = "login")
-        var login:String,                         // login
+        var login:String,
 
         @ColumnInfo(name = "avatar_url")
         @SerializedName("avatar_url")
         var avatarUrl:String,                    // 유저의 이미지 정보
 
         @ColumnInfo(name = "url")
-        var url:String,                            // 유저의 상세 정보를 조회 할 때 사용 한다.
+        var url:String,
 
-//        @ColumnInfo(name = "user_name")
-//        var name:String,
+        @ColumnInfo(name = "is_bookmark")
+        var isBookmark:Boolean,
 
-        @ColumnInfo(name = "is_bookmark")          // Bookmark 여부.
-        var isBookmark:Boolean
+        var name: String?,
 
+        var email: String?,
+
+        val followers: Long= 0,
+
+        val following: Long= 0,
+
+        val created_at: String?
 
 ) : Serializable
 

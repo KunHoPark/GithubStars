@@ -13,6 +13,7 @@ import com.leo.githubstars.databinding.MainFragmentBinding
 import com.leo.githubstars.di.scope.ActivityScoped
 import com.leo.githubstars.ui.base.BaseFragment
 import com.leo.githubstars.ui.detail.DetailActivity
+import com.leo.githubstars.util.ActivityUtil
 import javax.inject.Inject
 
 /**
@@ -54,15 +55,7 @@ class MainFragment @Inject constructor() : BaseFragment() {
     override fun subscribe() {
         viewModel?.run {
             startDetailActivityLiveData.observe(this@MainFragment, Observer {
-                Intent(activity, DetailActivity::class.java).run {
-                    activity?.let {
-                        it.startActivity(this)
-                        it.overridePendingTransition(
-                            R.anim.anim_slide_in_right,
-                            R.anim.anim_slide_out_left
-                        )
-                    }
-                }
+                ActivityUtil.startDetailActivity(activity!!, this@MainFragment, it)
             })
         }
 

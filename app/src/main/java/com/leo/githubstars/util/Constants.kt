@@ -11,4 +11,9 @@ object Constants {
     const val CONNECT_TIMEOUT_MILLISECONDS = 10000L
     const val READ_TIMEOUT_MILLISECONDS = 20000L
     const val WRITE_TIMEOUT_MILLISECONDS = 30000L
+
+    //action key
+    const val INTENT_ACTION_KEY_USERDATA = "intent.action.key.userdata"
+    const val INTENT_ACTION_KEY_TAB_POSITION = "intent.actionkey.tab.position"
+    const val PREF_ACTION_KEY_AUTH_TOKEN = "pref.action.key.auth.token"
 }

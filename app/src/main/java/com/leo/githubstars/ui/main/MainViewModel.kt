@@ -7,6 +7,7 @@ import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableField
 import com.google.android.material.tabs.TabLayout
 import com.jakewharton.rxbinding2.widget.RxTextView
+import com.leo.githubstars.R
 import com.leo.githubstars.callback.OnItemClickListener
 import com.leo.githubstars.data.local.SearchData
 import com.leo.githubstars.data.local.UserData
@@ -42,7 +43,7 @@ class MainViewModel
     val githubSearchWord = ObservableField<String>("")
     val bookmarkSearchWord = ObservableField<String>("")
     val isReloadGithubList = ObservableField<Boolean>(false)        // GithubTab list 갱신, Bookmark 변경
-    val startDetailActivityLiveData = SingleLiveEvent<Unit>()
+    val startDetailActivityLiveData = SingleLiveEvent<UserData>()
 
     private val bookmarkUserHash = HashMap<String, UserData>()
     private var totalCount = 0
@@ -251,20 +252,24 @@ class MainViewModel
             LeoLog.i(tag, "onItemClick = ${item.url}, isBookmarked=${item.isBookmark}")
             view.hideKeyboard()
 
-            startDetailActivityLiveData.call()
-
-            // Bookmark db에 저장 또는 삭제 처리 한다. bookmark 여부멩 따라 처리 된다.
-            when (item.isBookmark) {
-                true -> {
-                    item.isBookmark = false
-                    remoteRepository.deleteUserDataFromDb(item)
+            when(view.id) {
+                R.id.ivBookmark -> {
+                    // Bookmark db에 저장 또는 삭제 처리 한다. bookmark 여부멩 따라 처리 된다.
+                    when (item.isBookmark) {
+                        true -> {
+                            item.isBookmark = false
+                            remoteRepository.deleteUserDataFromDb(item)
+                        }
+                        else -> {
+                            item.isBookmark = true
+                            remoteRepository.insertUserDataFromDb(item)
+                        }
+                    }
                 }
                 else -> {
-                    item.isBookmark = true
-                    remoteRepository.insertUserDataFromDb(item)
+                    startDetailActivityLiveData.value = item
                 }
             }
-
         }
     }
 
