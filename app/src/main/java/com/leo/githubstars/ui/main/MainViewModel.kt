@@ -12,16 +12,15 @@ import com.leo.githubstars.callback.OnItemClickListener
 import com.leo.githubstars.data.local.SearchData
 import com.leo.githubstars.data.local.UserData
 import com.leo.githubstars.data.repository.RemoteRepository
+import com.leo.githubstars.event.SingleLiveEvent
 import com.leo.githubstars.extension.hideKeyboard
 import com.leo.githubstars.ui.base.BaseViewModel
 import com.leo.githubstars.util.Constants
 import com.leo.githubstars.util.InfiniteScrollListener
 import com.leo.githubstars.util.LeoLog
-import com.leo.githubstars.event.SingleLiveEvent
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
@@ -72,7 +71,7 @@ class MainViewModel
                     bookmarkUserData.addAll(it)
                 },
                 {
-
+                    message.onNext(it.localizedMessage)
                 }
             )
             .apply {
@@ -112,10 +111,15 @@ class MainViewModel
 
                 return@map searchWord
             }
-            .subscribe{
-                githubSearchWord.set(it)
-                onGithubSearchMoreData(it, false)
-            }
+            .subscribe(
+                {
+                    githubSearchWord.set(it)
+                    onGithubSearchMoreData(it)
+                },
+                {
+                    message.onNext(it.localizedMessage)
+                }
+            )
             .apply {
                 viewDisposables.add(this)
             }
@@ -124,7 +128,7 @@ class MainViewModel
     /**
      * GithubTagFragment 리스트의 더보기 할 때 다음 데이터를 github api를 통해 가져 온다.
      */
-    val onGithubSearchMoreData: (String, Boolean)->Unit = {searchWord, isReload ->
+    val onGithubSearchMoreData: (String)->Unit = { searchWord ->
          Flowable.just(searchWord)
             .filter {
                 //다음 페이지가 있는지를 확인 한다.
@@ -149,15 +153,13 @@ class MainViewModel
              }
              .subscribe(
                  {
-                     it?.let {
-                         githubSearchWord.set(searchWord)
-                         LeoLog.i(tag, "loadSearchDataFromGithub githubSearchWord=${githubSearchWord.get()}, searchWord=$searchWord")
-                         totalCount = it.totalCount.toInt()
-                         githubUserData.addAll(it.items)     //리스트 갱신. AdapterBindings를 통해 업데이트 된다.
+                     githubSearchWord.set(searchWord)
+                     LeoLog.i(tag, "loadSearchDataFromGithub githubSearchWord=${githubSearchWord.get()}, searchWord=$searchWord")
+                     totalCount = it.totalCount.toInt()
+                     githubUserData.addAll(it.items)     //리스트 갱신. AdapterBindings를 통해 업데이트 된다.
 
-                         scrollListener?.let {
-                             it.previousTotal = 0
-                         }
+                     scrollListener?.let { listener->
+                         listener.previousTotal = 0
                      }
                  },
                  {

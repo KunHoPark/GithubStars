@@ -42,7 +42,6 @@ class DetailViewModel
                 },
                 {
                     LeoLog.e(tag, it.localizedMessage)
-
                 }
             ).apply { viewDisposables.add(this) }
 

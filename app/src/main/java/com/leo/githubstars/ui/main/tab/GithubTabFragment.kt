@@ -55,7 +55,7 @@ class GithubTabFragment @Inject constructor() : BaseTabFragment() {
                 this.adapter = GithubAdapter()
                 val gridLayoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
                 layoutManager = gridLayoutManager
-                viewModel!!.scrollListener = InfiniteScrollListener({loadSearchDataFromGithub(false)}, gridLayoutManager)
+                viewModel!!.scrollListener = InfiniteScrollListener({loadSearchDataFromGithub()}, gridLayoutManager)
                 addOnScrollListener(viewModel!!.scrollListener!!)
             }
         }
@@ -63,10 +63,10 @@ class GithubTabFragment @Inject constructor() : BaseTabFragment() {
         subscribe()
     }
 
-    private fun loadSearchDataFromGithub(isReload: Boolean) {
+    private fun loadSearchDataFromGithub() {
         viewModel?.run {
             githubSearchWord.get()?.let {
-                this.onGithubSearchMoreData(it, isReload)
+                this.onGithubSearchMoreData(it )
             }
         }
     }
