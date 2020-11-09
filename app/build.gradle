@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -107,5 +108,15 @@ dependencies {
     // picasso
     implementation files('libs/picasso-2.5.2.jar')
     androidTestImplementation 'androidx.test:rules:1.2.0-beta01'
+
+    // Firebase
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:26.0.0')
+    implementation 'com.google.firebase:firebase-dynamic-links-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+//    implementation 'com.google.firebase:firebase-analytics'
+//    implementation 'com.google.firebase:firebase-core'
+//    implementation 'com.google.firebase:firebase-auth'
+//    implementation 'com.google.firebase:firebase-firestore'
 
 }

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.leo.githubstars.R
 import com.leo.githubstars.data.local.UserData
 import com.leo.githubstars.ui.detail.DetailActivity
+import com.leo.githubstars.ui.main.DynamicLinkActivity
 import com.leo.githubstars.ui.main.MainActivity
 
 /**
@@ -16,6 +17,19 @@ object ActivityUtil {
 
     fun startMainActivity(activity: Activity, fragment: Fragment?=null) {
         Intent(activity, MainActivity::class.java).run {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            fragment?.let {
+                it.startActivity(this)
+            } ?: activity.startActivity(this)
+            activity.overridePendingTransition(
+                R.anim.anim_slide_in_right,
+                R.anim.anim_slide_out_left
+            )
+        }
+    }
+
+    fun startDynamicLinkActivity(activity: Activity, fragment: Fragment?=null) {
+        Intent(activity, DynamicLinkActivity::class.java).run {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
             fragment?.let {
                 it.startActivity(this)
