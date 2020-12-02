@@ -50,7 +50,7 @@ class MainActivity : BaseActivity() {
                     .commitNow()
         }
         handleDeepLink()
-//        ActivityUtil.startDynamicLinkActivity(this)
+        ActivityUtil.startDynamicLinkActivity(this)
     }
 
     fun getTabItemList(): HashMap<MainTabItems, Fragment> {
