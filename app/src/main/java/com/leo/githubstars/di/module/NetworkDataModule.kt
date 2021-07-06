@@ -46,6 +46,22 @@ class NetworkDataModule {
 
     }
 
+//    @Provides
+//    @Named("unAuthOkHttpClient")
+//    @Singleton
+//    fun providesUnAuthOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient =
+//        OkHttpClient.Builder().apply {
+//            readTimeout(Constants.READ_TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS)
+//            writeTimeout(Constants.WRITE_TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS)
+//            connectTimeout(Constants.CONNECT_TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS)
+//            addInterceptor(HttpLoggingInterceptor(RetrofitLogger(Constants.HTTP_LOGGING_PRETTY_PRINTING_ENABLE)).apply {
+//                level = HttpLoggingInterceptor.Level.BODY
+//                HttpLoggingInterceptor.Level.HEADERS
+//            })
+//        }.let { builder ->
+//            builder.build()
+//        }
+
     @Provides
     @Named("unAuthOkHttpClient")
     @Singleton

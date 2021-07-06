@@ -36,7 +36,7 @@ open abstract class BaseFragment: DaggerFragment() {
 
 
     protected fun showToast(message: String) {
-        Toast.makeText(activity!!.applicationContext, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireActivity().applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 
 }

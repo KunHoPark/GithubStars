@@ -72,8 +72,8 @@ class SplashFragment @Inject constructor() : BaseFragment() {
                     .filter { !it.isEmpty }
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe {
-                        ActivityUtil.startMainActivity(activity!!)
-                        activity!!.finish()
+                        ActivityUtil.startMainActivity(requireActivity())
+                        requireActivity().finish()
                     }
                     .apply {
                         viewDisposables.add(this)

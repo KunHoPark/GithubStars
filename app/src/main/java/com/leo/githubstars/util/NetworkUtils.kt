@@ -13,10 +13,10 @@ class NetworkUtils {
             } ?: return false
         }
 
-        fun getNetworkType(context: Context): Int = getConnectivityManager(context).activeNetworkInfo.type
+        fun getNetworkType(context: Context): Int = getConnectivityManager(context).activeNetworkInfo!!.type
 
         fun getNetworkTypeAsString(context: Context): String =
-                when (getConnectivityManager(context).activeNetworkInfo.type) {
+                when (getConnectivityManager(context).activeNetworkInfo!!.type) {
                     ConnectivityManager.TYPE_WIFI -> "WiFi"
                     ConnectivityManager.TYPE_MOBILE -> "Mobile"
                     else -> ""

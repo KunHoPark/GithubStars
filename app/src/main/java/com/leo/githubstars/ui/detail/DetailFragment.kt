@@ -50,7 +50,7 @@ class DetailFragment @Inject constructor() : BaseFragment() {
                 if (userData is UserData) {
                     viewModel.loadData(userData)
                 }
-            }?:let { activity!!.finish() }
+            }?:let { requireActivity().finish() }
         }
     }
 

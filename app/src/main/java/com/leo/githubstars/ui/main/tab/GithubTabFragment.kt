@@ -1,5 +1,6 @@
 package com.leo.githubstars.ui.main.tab
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -74,16 +75,17 @@ class GithubTabFragment @Inject constructor() : BaseTabFragment() {
     /**
      * ViewModel로 부터 전달 되는 이벤트 들을 관리 한다. ex) observe, liveData 등
      */
+    @SuppressLint("FragmentLiveDataObserve")
     override fun subscribe() {
 
         viewModel?.run {
 
             // Bookmark db에 등록된 유저 정보가 변경 되었을때.
-            getUserData.observe(this@GithubTabFragment, Observer<List<UserData>> {
-                it?.let {
-                    updateBookmarkData(it)
-                }
-            })
+//            getUserData.observe(this@GithubTabFragment, Observer<List<UserData>> {
+//                it?.let {
+//                    updateBookmarkData(it)
+//                }
+//            })
         }
     }
 

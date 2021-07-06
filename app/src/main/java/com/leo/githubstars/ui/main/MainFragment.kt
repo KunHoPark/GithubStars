@@ -55,7 +55,7 @@ class MainFragment @Inject constructor() : BaseFragment() {
     override fun subscribe() {
         viewModel?.run {
             startDetailActivityLiveData.observe(this@MainFragment, Observer {
-                ActivityUtil.startDetailActivity(activity!!, this@MainFragment, it)
+                ActivityUtil.startDetailActivity(requireActivity(), this@MainFragment, it)
             })
         }
 
